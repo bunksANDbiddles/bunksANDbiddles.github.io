@@ -1,9 +1,0 @@
-﻿@{
-    Response.Cache.SetCacheability(HttpCacheability.NoCache);
-    if(UrlData[0].IsInt()){
-          var db = Database.Open("BunksAndBiddlesSchool"); 
-        var sql = "SELECT * FROM PaceResult WHERE paceResultID = @0";
-        var paceResult = db.QuerySingle(sql,UrlData[0]);
-        Json.Write(paceResult, Response.Output);
-    }
-}

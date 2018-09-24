@@ -1,7 +1,0 @@
-﻿@{
-    if (!Roles.IsUserInRole(WebSecurity.CurrentUserName, "Administrator"))
-    {
-       string currentUrl = Request.Url.ToString();
-       Response.Redirect("~/Account/Login?sender=" + currentUrl); 
-    }
-}

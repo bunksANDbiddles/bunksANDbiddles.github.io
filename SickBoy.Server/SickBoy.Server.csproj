@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20180917092123_Initial.cs" />
+    <Compile Remove="Migrations\20180917092123_Initial.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.Server" Version="0.5.1" />
+  </ItemGroup>
+
+
+ 
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sickboy.Client\Sickboy.Client.csproj" />
+    <ProjectReference Include="..\Sickboy.Shared\Sickboy.Shared.csproj" />
+  </ItemGroup>
+
+
+ 
+
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
+</Project>

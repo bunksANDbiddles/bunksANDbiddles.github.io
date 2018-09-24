@@ -1,8 +1,0 @@
-﻿@{
-    var db = Database.Open("BunksAndBiddlesSchool");
-    var sql = "SELECT practicalLifeID, practicalLifeName, Name FROM PracticalLife";
-    var data = db.Query(sql);
-    Response.ContentType = "application/json";
-    Json.Write(data, Response.Output);
-}
-
