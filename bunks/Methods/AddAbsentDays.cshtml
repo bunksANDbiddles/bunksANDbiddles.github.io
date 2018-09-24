@@ -1,0 +1,36 @@
+﻿@{
+    
+  if(IsPost){
+
+   
+      var admissionNo = "";
+
+      var daysAbsent = "";
+      var SupervisorID = "";
+      var studentID = "";
+
+  var db = Database.Open("BunksAndBiddlesSchool"); 
+     var orderSql = "INSERT INTO DaysAbsent (  admissionNo,SupervisorID, studentID, daysAbsent)" +
+                                "VALUES (@0, @1, @2, @3)";
+
+     admissionNo = Request["admissionNoDays"];
+    
+    
+     daysAbsent = Request["daysAbsent"];
+         SupervisorID = Request["supervisorIDDays"];
+         studentID = Request["studentIDDays"];
+       
+      
+
+
+     db.Execute( orderSql,  admissionNo, SupervisorID,  studentID, daysAbsent);  
+     
+     
+     
+    
+    
+     }
+
+    }
+
+

@@ -1,0 +1,38 @@
+﻿
+@{
+    
+ Layout = "~/bunks/Shared/Layouts/_LayoutKinder.cshtml";     
+ Page.Title = "Students Records Available";          
+ 
+
+
+     var db = Database.Open("BunksAndBiddlesSchool"); 
+    var searchWords = Request["searchTerm"].Split(' ');     
+    IEnumerable<dynamic> result = Enumerable.Empty<string>();          
+  
+    var sqlSelect = "SELECT pupilID, firstName, otherNames FROM Pupils WHERE " +                      
+                    "firstName LIKE @0 OR otherNames LIKE @0 OR admissionNo LIKE @0 ";          
+                   
+    foreach(var word in searchWords)     
+    {         
+      result = result.Concat(db.Query(sqlSelect, "%" + word + "%").ToList());     
+        
+     }   
+   
+}
+
+
+
+<h1 class="win-type-title">Search Results</h1>
+  
+<p class="win-type-subtitle">@result.Count() students found matching: <em>@Request["searchTerm"]</em></p> 
+ 
+<ul id="searchResult">     
+    @foreach (var item in result)     
+    {         
+        <li> 
+            <p> @item.firstName</p>            
+            <a href="../../bunks/StudentDetails/@item.pupilID">@item.otherNames</a>         
+        </li>         
+     } 
+</ul> 

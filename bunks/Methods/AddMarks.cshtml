@@ -1,0 +1,41 @@
+﻿@{
+    
+  if(IsPost){
+
+       var subjectName = "";
+      var paceNo = "";
+      var score = "";
+      var admissionNo = "";
+     var teacherName = "";
+     
+      var SupervisorID = "";
+      var studentID = "";
+
+  var db = Database.Open("BunksAndBiddlesSchool"); 
+     var orderSql = "INSERT INTO PaceResult ( subjectName, paceNo, score, admissionNo,SupervisorID, studentID,teacherName)" +
+                                "VALUES (@0, @1, @2, @3, @4, @5, @6)";
+
+      subjectName = Request["subjectName"];
+     paceNo = Request["paceNo"];
+   score = Request["score"];
+     admissionNo = Request["admissionNo"];
+     teacherName = Request["teacherName"];
+    
+    
+         SupervisorID = Request["supervisorID"];
+         studentID = Request["studentID"];
+       
+      
+
+
+     db.Execute( orderSql, subjectName, paceNo, score, admissionNo, SupervisorID,  studentID, teacherName);  
+     
+     
+     
+    
+    
+     }
+
+    }
+
+

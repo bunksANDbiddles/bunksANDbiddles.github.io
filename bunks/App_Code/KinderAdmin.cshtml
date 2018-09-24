@@ -1,0 +1,23 @@
+﻿
+@* Admin Functions *@ 
+@functions {  
+    
+        
+     
+     
+     public static bool KindergartenExists(string kindergartenTitle)     
+    {         
+        var db = Database.Open("BunksAndBiddlesSchool");         
+        var sqlQueryKinder = "SELECT kindergartenID FROM Kindergarten WHERE kindergartenTitle = @0";         
+        return db.Query(sqlQueryKinder, kindergartenTitle).Count() > 0;     
+     } 
+     
+      public static bool KindergartenIsEmpty(string kindergartenID)     
+     {         
+          var db = Database.Open("BunksAndBiddlesSchool");         
+          var sqlQuery = "SELECT PupilID FROM Pupils WHERE kindergartenLevel = @0";         
+          return db.Query(sqlQuery, kindergartenID).Count() == 0;     
+      }     
+     
+ }
+

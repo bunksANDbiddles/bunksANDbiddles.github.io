@@ -1,0 +1,40 @@
+﻿@{
+    
+    Layout = "~/Shared/layouts/_LinkedLayout.cshtml";
+
+    var eventsID = !UrlData[0].IsEmpty() ? UrlData[0] : "0";
+    
+    var db = Database.Open("BunksWebsite");
+    
+    var sqlSelect = "SELECT * FROM Events WHERE eventsID = @0"; 
+
+    var events = db.QuerySingle(sqlSelect, eventsID);
+
+}
+
+
+
+@if (events == null)
+{
+    
+
+    <p class="win-type-header">We Currently have no upcoming Event</p>
+}
+
+else {
+   <section class="mockup-section paint-area">
+						<div class="mockup-content">
+							<div class="mockup-blogheader">
+								<p class="paint-area paint-area--text win-type-header">@events.eventTitle</p>
+								<footer class="paint-area paint-area--text ">Status <span>@events.eventStatus</span></footer>
+                                <footer class="paint-area paint-area--text ">Date <span>@events.dateOfEvent</span></footer>
+							</div>
+						</div><!-- /mockup-grid -->
+    	<div class="mockup-content">
+							<div class="mockup-blogArticle">
+								<p class="paint-area paint-area--text win-type-subheader">@events.eventsBody</p>
+								
+							</div>
+						</div><!-- /mockup-grid -->
+					</section>
+}

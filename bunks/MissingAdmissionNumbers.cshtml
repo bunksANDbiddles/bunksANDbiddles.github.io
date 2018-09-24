@@ -1,0 +1,23 @@
+﻿@{
+    
+  Layout = "~/Shared/layouts/_layout.cshtml";
+    Page.Title = "Home Page";
+       var db = Database.Open("BunksAndBiddlesSchool");   
+var sqlSelectStudents = "SELECT * FROM PaceResult WHERE subjectName = 'Speech' AND admissionNo = 'BSL/P/ToBeIncluded'";
+
+    
+}
+
+<ul>
+             @{ 
+                  foreach (var paceResultID in db.Query(sqlSelectStudents)){
+                                    
+                                          <li>@paceResultID.subjectName @paceResultID.paceResultID</li>
+                                       
+                                            
+                                        }
+
+                                   }
+        </ul>
+  
+   

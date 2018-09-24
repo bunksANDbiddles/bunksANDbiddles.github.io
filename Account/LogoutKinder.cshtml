@@ -1,0 +1,10 @@
+﻿@{          
+            Layout = "~/bunks/Shared/Layouts/_LayoutKinder.cshtml";     
+            Page.Title = "Log Out";          
+            WebSecurity.Logout();       
+            }  
+<h1>Log Out</h1> 
+<p class="win-type-header">You have been logged out from the site.</p> 
+<p class="win-type-subheader">
+    <a href="@Href("~/bunks/Default.cshtml")">Go Back home</a>
+</p> 

@@ -1,0 +1,111 @@
+﻿@{          
+    
+    Layout = "~/Shared/Layouts/_Layout.cshtml";     
+    Page.Title = "Marks";          
+    // Create a blank cart in Session if not present     
+    if (Session["marks"] == null)     
+    {         
+        Session["marks"] = new Marks();     
+    }          
+    // Get current cart from Session     
+   Marks marks = (Marks)Session["marks"]; 
+
+     var db = Database.Open("BunksAndBiddlesSchool");
+      var sqlSelect = "SELECT * FROM ExtraCurricularResults " +
+                "LEFT OUTER JOIN SupervisorProfile ON ExtraCurricularResults.SupervisorID = SupervisorProfile.SupervisorID " + 
+                "RIGHT OUTER JOIN Students ON ExtraCurricularResults.studentID = Students.studentID " +
+                "WHERE ExtraCurricularResults.SupervisorID = SupervisorProfile.SupervisorID " +
+                "ORDER BY ExtraCurricularResults.ExtraCurricularResultID Desc" ;
+    
+    var results = db.Query(sqlSelect);
+    var marksGrid = new WebGrid(source: results, defaultSort: "Email", rowsPerPage: 10);
+   
+
+   if (IsPost)
+   {
+       if (Request["studentID"] != null) 
+       {
+
+           // Form posted from Student Details Page
+           var studentID = Request["studentID"];
+           var admissionNo = Request["admissionNo"];
+           
+
+           marks.AddStudent(studentID.AsInt(), admissionNo);
+       }
+       else if (Request["removeIndex"] != null)
+       {
+           // Form posted by Marks Remove Student Button
+           var removeIndex = Request["removeIndex"].AsInt();
+           marks.RemoveStudent(removeIndex);
+       }
+   }
+   
+   } 
+
+
+<h1 class="win-type-subheader">Students Marks List</h1>
+<h2 class="win-type-subtitle" style="color: #ff6a00">Submitted By Class Supervisor</h2>
+
+@if(marks.Students.Count() == 0 )
+{
+    <p class="win-type-subtitle">List Of the Marks That have been added by Supervisors </p>
+@marksGrid.GetHtml( tableStyle: "webgrid", headerStyle:"header", 
+                    alternatingRowStyle:"alt", columns: marksGrid.Columns (marksGrid.Column("Email" ),
+                         marksGrid.Column("admissionNo"),
+                        marksGrid.Column("subjectName"),
+                        marksGrid.Column("paceNo"),
+                        marksGrid.Column("score") 
+    
+)
+)
+ 
+
+}
+else
+{
+    <text>
+        <table>
+            <tr>
+                
+            </tr>
+            @{
+                // Declare and initialize index variable, i
+                int i = 0;
+            }
+
+            @foreach (var student in marks.Students)
+            {
+                  <tr>                     
+                    
+                      <td >Marks for  @Students.GetStudentNameFromId(student.StudentID) have been submitted Successfully</td>                     
+                      
+                      <td class="remove">                         
+                          <form action="Marks" method="post">
+                               @Html.Hidden("removeIndex", i) 
+                               <input class="win-button" type="submit" value="Delete" />  
+                               
+                          </form>
+                              </td>                 
+                  </tr>                              
+                 // increment index                 
+                 i++;             
+                 } 
+            }
+        
+        </table>
+
+
+
+</text>
+    
+ @marksGrid.GetHtml( tableStyle: "webgrid", headerStyle:"header", 
+                    alternatingRowStyle:"alt", columns: marksGrid.Columns (marksGrid.Column("Email", canSort: true),
+                         marksGrid.Column("admissionNo"),
+                        marksGrid.Column("subjectName"),
+                        marksGrid.Column("paceNo"),
+                        marksGrid.Column("score") 
+    
+)
+)
+}

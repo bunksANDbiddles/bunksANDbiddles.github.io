@@ -1,0 +1,169 @@
+﻿
+@{
+    
+@*if (!WebSecurity.IsAuthenticated)     
+    {        
+        string currentUrl = Request.Url.ToString();         
+        Response.Redirect("~/Account/Login?sender=" + currentUrl);     
+    } 
+*@
+    Layout = "~/bunks/Shared/layouts/_Page.cshtml";
+    var pupilID = !UrlData[0].IsEmpty() ? UrlData[0] : "0"; 
+                     
+     var db = Database.Open("BunksAndBiddlesSchool");        
+     var sqlSelect = "SELECT * FROM Pupils WHERE pupilID = @0"; 
+
+   
+     var sqlSelectTeacher = "SELECT teacherName FROM Teachers " ;     
+          
+     var pupil = db.QuerySingle(sqlSelect, pupilID);  
+  
+  var sqlSelectCommentTitle = "SELECT * FROM subjectComment;";
+  
+}
+
+@if (pupil == null)
+ {     
+    <p>
+        Unable to fetch pupil details.         
+        Try browsing one of the Learning Centers listed to the left.   
+          
+    </p> 
+
+         } 
+else {	
+	<text>	
+
+<script type="text/javascript" src="../../bunks/js/kinderDBupdate.js"></script>	
+	 
+ <p class="win-type-title" style="color:#ef4135;"><b>@pupil.firstName @pupil.otherNames</b>
+    <br> @pupil.admissionNo</p>
+ 
+   
+
+	<div class="grid">
+                    <figure class="effect-goliath">
+						<img src="~/bunks/img/25.jpg" alt="img24"/>
+						<figcaption>
+							<h2 class="win-type-title"><span></span></h2>
+							<p>Click the button </p>
+							  
+                             General Remarks for @pupil.firstName
+                            						 <button id="add-Comment" style="width:300px; height:50px; float:left; background:#3a3a3c; color: white; font-size:large;"class="win-button" >
+                    Fill Comments
+                    </button>
+						</figcaption>			
+					</figure>
+				</div>
+   <div id="dialogCommentReportForm" class="details">
+                    <h1 class="win-type-subheader" style="color: #ab0217" > &#xE109; &#xE8F1; </h1>
+
+              <form id="add-commentReport-form" action="@Href("~/bunks/MethodsKinder/AddReportComment")"  method="post">
+
+                                    <div class="headerColumn">
+
+
+                        <fieldset>
+                                            <legend class="win-type-title" style="color: #808080; padding: 0em 0.5em;">Select Activity</legend>
+                                            <div class="detailColumn">
+                                                <select id="commentTitle" name="commentTitle" class="win-dropdown" style="font-size:x-large; margin: 1em; ">
+                                              <option value="">--General Comment --</option>
+                                @{ 
+                                   foreach (var subjectCommentID in db.Query(sqlSelectCommentTitle)){
+                                    
+                                             <option style="font-size:x-large">@subjectCommentID.subjectCommentName</option>
+                                       
+                                            
+                                        }
+
+                                   }
+  
+                                            }
+
+                                              
+                                            
+                                        </select>
+
+
+                                                
+                                        <select id="teacherNameGeneral" name="teacherNameGeneral" class="win-dropdown" style="font-size:x-large; margin: 1em; ">
+                                              <option value="">-- Select Name --</option>
+                                         @{ 
+                                   foreach (var teacherID in db.Query( sqlSelectTeacher)){
+                                     
+                                             <option  style="font-size:x-large">@teacherID.teacherName</option>
+                                        
+
+                                   }
+  
+                                            }
+                                        
+                                        
+                                        </select>
+
+
+                                             
+
+                                              
+
+
+
+
+
+                                            </div>
+
+                                             <legend class="win-type-title" style="color: #808080; padding: 0em 0.5em;">Insert Comment</legend>
+                                            <div class="detailColumn">
+                                               
+                                                       
+                            <input style="border: none; opacity: 0; background: black ;"  id="pupilIDGeneral" name="pupilIDGeneral" value="@pupilID" />
+
+                                                <input   id="daysAbsentGeneral" name="daysAbsentGeneral" value="" />
+                      
+                                       
+                                             
+
+
+
+
+   
+                                             
+                                            <input id="admissionNoGeneral" name="admissionNoGeneral" style="border: none; opacity: 0; background: black ;" value="@pupil.admissionNo " />  
+                                             
+                                  
+                                             
+
+                                    <input style="border: none; opacity: 0; background: black ;" id="supervisorIDGeneral" name="supervisorIDGeneral" value="@WebSecurity.GetUserId(WebSecurity.CurrentUserName)" />   
+
+
+                                                
+                                              
+					<textarea id="commentGeneral" name="commentGeneral" class="win-textarea"  ></textarea>
+				
+			
+
+
+                                  
+
+
+                                                
+                                            </div>
+
+
+
+                                        </fieldset>
+
+                                   
+
+
+                                       
+                                    </div>
+                                </form>
+  </div>
+	
+		</text>		 
+            } 
+ 
+			
+			
+		

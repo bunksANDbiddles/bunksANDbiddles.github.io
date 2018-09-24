@@ -1,0 +1,150 @@
+﻿@{
+      Layout = "~/Shared/Layouts/_LayoutKinder.cshtml";     
+    Page.Title = "Reports";          
+    // Create a blank cart in Session if not present     
+    if (Session["reports"] == null)     
+    {         
+        Session["reports"] = new Reports();     
+    }          
+    // Get current cart from Session     
+  Reports reports = (Reports)Session["reports"];  
+
+     var db = Database.Open("BunksAndBiddlesSchool");
+
+     var sqlSelect = "SELECT * FROM KindergartenReport " +
+                "LEFT OUTER JOIN SupervisorProfile ON KindergartenReport.SupervisorID = SupervisorProfile.SupervisorID " + 
+                "RIGHT OUTER JOIN Pupils ON KindergartenReport.pupilID = Pupils.pupilID " +
+                "WHERE KindergartenReport.SupervisorID = SupervisorProfile.SupervisorID " +
+                "ORDER BY KindergartenReport.reportID Desc" ;
+    var results = db.Query(sqlSelect);
+    var activityGrid = new WebGrid(results, ajaxUpdateContainerId : "grid", defaultSort: "teacherName", rowsPerPage: 10);
+
+     var sqlSelectReport = "SELECT * FROM KinderExtraCurricularResults " +
+                    "LEFT OUTER JOIN SupervisorProfile ON KinderExtraCurricularResults.SupervisorID = SupervisorProfile.SupervisorID " +
+                    "RIGHT OUTER JOIN Pupils ON KinderExtraCurricularResults.pupilID = Pupils.pupilID " +
+                    "WHERE KinderExtraCurricularResults.SupervisorID = SupervisorProfile.SupervisorID " +
+                    "ORDER BY KinderExtraCurricularResults.extraCurricularResultID Desc ";
+    var report = db.Query(sqlSelectReport);
+    var reportGrid = new WebGrid(report, ajaxUpdateContainerId : "grid", defaultSort: "teacherName", rowsPerPage: 10 );
+
+      if (IsPost)
+   {
+       if (Request["pupilID"] != null) 
+       {
+           // Form posted from Pupil Details Page
+           var pupilID = Request["pupilID"];
+           var admissionNo = Request["admissionNo"];
+           
+
+           reports.AddPupil(pupilID.AsInt(), admissionNo);
+       }
+       else if (Request["removeIndex"] != null)
+       {
+           // Form posted by Marks Remove Student Button
+           var removeIndex = Request["removeIndex"].AsInt();
+           reports.RemovePupil(removeIndex);
+       }
+   }
+   
+
+    
+}
+<h1 class="win-type-subheader">Kinder Report List</h1>
+<h2 class="win-type-subtitle" style="color: #ff6a00">Submitted By Class Supervisor</h2>
+
+@if(reports.Pupils.Count() == 0 )
+{
+   <button id="extraCurricularTab" style="width:300px; height:50px; float:right; background:#3a3a3c; color: white; font-size:large;"class="win-button" >
+                    ExtraCurricular  &#xE1F7;
+                    </button>
+<h1 class="win-type-subheader" style=" color: white; text-align: center">View all list here</h1>
+<h2 class="win-type-body" style=" color: white; text-align: center">See Reports from supervisors + all extracurricular activities reports </h2>
+      <div id="headerSectionOutput">
+        <div id="headerSectionOutput1">
+
+    <p class="win-type-title">Marks + Comments </p>
+
+ @activityGrid.GetHtml( tableStyle: "webgrid", headerStyle:"header", 
+                    alternatingRowStyle:"alt", columns: activityGrid.Columns (activityGrid.Column("teacherName", canSort: true),
+                        activityGrid.Column("admissionNo"),
+                        activityGrid.Column("subjectName"),
+                        activityGrid.Column("goals"),
+                        activityGrid.Column("activity"),
+                        activityGrid.Column("subjectComment"),
+                        activityGrid.Column(format: @<a href="~/EditMarks?id=@item.reportID"><div style="width:40px;  float:left; background:#3a3a3c; color: white; font-size:large;" data-win-control="WinJS.UI.NavBarCommand" data-win-options="{ label: 'Edit', icon: 'edit' }"></div></a>) 
+                         
+    
+)
+)
+
+
+
+</div>
+<div id="headerSectionOutput2">
+ <p class="win-type-title">ExtraCurricular Activities + Comments </p>
+
+ @reportGrid.GetHtml( tableStyle: "webgrid", headerStyle:"header", 
+                    alternatingRowStyle:"alt", columns: reportGrid.Columns (reportGrid.Column("teacherName", canSort: true),
+                         reportGrid.Column("admissionNo"),
+                        reportGrid.Column("extraCurricularTitle"),
+                       reportGrid.Column("comment") 
+                         
+    
+)
+)
+</div>
+          </div>
+
+  <div id="cartButtons">             
+       
+      
+      <a href="/Default" ><div data-win-control="WinJS.UI.NavBarCommand" style=" color:#295598; width: 150px;" data-win-options="{ label: 'Continue Recording?', icon: '&#xE14B;' }">
+       </div></a>             
+              
+  </div>
+}
+else
+{
+    <text>
+        <table>
+            <tr>
+                <th>Student</th>
+                  <th>Admission Number</th>
+                  <th>Subject </th>
+                  <th>Pace Number</th>
+                  <th>Score</th>
+            </tr>
+            @{
+                // Declare and initialize index variable, i
+                int i = 0;
+            }
+
+            @foreach (var pupil in reports.Pupils)
+            {
+                  <tr>                     
+                      <td >@Pupils.GetPupilNameFromId(pupil.PupilID)</td> 
+                                 
+                      <td >@pupil.AdmissionNo</td>
+                                       
+                      
+                      <td class="remove">                         
+                          <form action="Reports" method="post">
+                               @Html.Hidden("removeIndex", i) 
+                               <input type="submit" value="Remove" />     
+                          </form>
+                              </td>                 
+                  </tr>                              
+                 // increment index                 
+                 i++;             
+                 } 
+            }
+        
+        </table>
+
+
+</text>
+    
+}
+
+
+<script type="text/javascript" src="../js/Marks.js"></script>

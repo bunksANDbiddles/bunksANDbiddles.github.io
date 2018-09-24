@@ -1,0 +1,659 @@
+﻿
+@{          
+            
+             if (!WebSecurity.IsAuthenticated)     
+                {        
+                    string currentUrl = Request.Url.ToString();         
+                    Response.Redirect("~/Account/Login?sender=" + currentUrl);     
+                } 
+            
+            
+            Layout = "~/Shared/Layouts/_LayoutParent.cshtml"; 
+
+            
+
+
+                     
+            var studentID = !UrlData[0].IsEmpty() ? UrlData[0] : "0"; 
+            var parentID = @WebSecurity.GetUserId(WebSecurity.CurrentUserName);
+                       
+            var db = Database.Open("BunksAndBiddlesSchool"); 
+
+              var sqlSelectMathematicResults = "SELECT * FROM PaceResult WHERE studentID = @0 AND subjectName = 'Mathematics' ";        
+            var sqlSelectEnglishResults = "SELECT * FROM PaceResult WHERE studentID = @0 AND subjectName = 'English' "; 
+            var sqlSelectScienceResults = "SELECT * FROM PaceResult WHERE studentID = @0 AND subjectName = 'Science' "; 
+            var sqlSelectWordBuildingResults = "SELECT * FROM PaceResult WHERE studentID = @0 AND subjectName = 'Word Building' "; 
+            var sqlSelectLiteratureResults = "SELECT * FROM PaceResult WHERE studentID = @0 AND subjectName = 'Literature' "; 
+            var sqlSelectSocialStudiesResults = "SELECT * FROM PaceResult WHERE studentID = @0 AND subjectName = 'Social Studies' "; 
+
+            var sqlSelectExtraCurricularResults = "SELECT * FROM ExtraCurricularResults WHERE studentID = @0 ";
+
+            var extraC = db.Query(sqlSelectExtraCurricularResults, studentID);
+    var reportGrid = new WebGrid(extraC, ajaxUpdateContainerId : "grid", defaultSort: "extraCurricularTitle", rowsPerPage: 10);
+            
+       
+          
+
+
+
+
+
+              var sqlSelect = "SELECT * FROM Students WHERE studentID = @0"; 
+          
+            
+             var sqlSelectTeacher = "SELECT teacherName FROM Teachers " ;
+              
+             var sqlSelectUpper = "SELECT * FROM Students WHERE studentID = @0 AND classLevel = '10'";
+           
+            
+             
+
+                 var student = db.QuerySingle(sqlSelect, studentID);  
+
+                var upperStudent = db.QuerySingle(sqlSelectUpper, studentID);
+      
+          
+          
+                
+            } 
+   <script type="text/javascript" src="../js/dbUpdate.js">
+    
+        </script>
+
+<script type="text/javascript">
+    $(function() { 
+    
+    var mathematicMarks = []; 
+    var englishMarks = [];
+    var scienceMarks = [];
+    var wordBuildingMarks = [];
+    var literatureMarks = [];
+    var socialStudiesMarks = [];
+
+
+
+
+
+  @foreach ( var paceResultID in db.Query(sqlSelectEnglishResults, studentID) )
+      {
+          
+       @:englishMarks.push(@paceResultID.score);
+
+         
+      }
+
+     @foreach ( var paceResultID in db.Query(sqlSelectMathematicResults, studentID) )
+      {
+          
+       @:mathematicMarks.push(@paceResultID.score);
+
+         
+      }
+
+    
+  @foreach ( var paceResultID in db.Query(sqlSelectScienceResults, studentID) )
+      {
+          
+       @:scienceMarks.push(@paceResultID.score);
+
+         
+      }
+
+     @foreach ( var paceResultID in db.Query(sqlSelectWordBuildingResults, studentID) )
+      {
+          
+       @:wordBuildingMarks.push(@paceResultID.score);
+
+         
+      }
+    @foreach ( var paceResultID in db.Query(sqlSelectLiteratureResults, studentID) )
+      {
+          
+       @:literatureMarks.push(@paceResultID.score);
+
+         
+      }
+
+     @foreach ( var paceResultID in db.Query(sqlSelectSocialStudiesResults, studentID) )
+      {
+          
+       @:socialStudiesMarks.push(@paceResultID.score);
+
+         
+      }
+
+   
+    var sumEnglish = 0;
+    var sumMath = 0;
+    var sumScience = 0;
+    var sumWordBuilding = 0;
+    var sumLiterature = 0;
+    var sumSocialStudies = 0;
+  
+    for ( var i = 0; i < englishMarks.length; i++ ){
+          sumEnglish += parseInt( englishMarks[i], 10);
+    }
+
+    var englishAvg = sumEnglish/englishMarks.length;
+
+    
+
+    if (englishAvg >= 0) {
+     $('#englishAverage').html('Average Score <br><b>' +englishAvg+ '%</b>');
+    } else {
+     $('#paceEnglish').html('No PACE completed');
+      $('#scoreEnglish').html('0');
+    }
+
+    // mathematics average
+
+    for (var i = 0; i < mathematicMarks.length; i++ ) {
+    
+        sumMath += parseInt( mathematicMarks[i], 10);
+    }
+
+    var mathAvg = sumMath/mathematicMarks.length;
+
+    if (mathAvg >= 0) {
+     $('#mathematicAverage').html('Average Score <br><b>' +mathAvg+ '%</b>');
+    } else {
+     $('#paceMathematic').html('No PACE completed');
+      $('#scoreMathematic').html('0');
+    }
+
+        // science average
+
+       for ( var i = 0; i < scienceMarks.length; i++ ){
+          sumScience += parseInt( scienceMarks[i], 10);
+    }
+
+    var scienceAvg = sumScience/scienceMarks.length;
+
+        if (scienceAvg >= 0) {
+    $('#scienceAverage').html('Average Score <br><b>' +scienceAvg+ '%</b>');
+
+    } else {
+    
+    $('#paceScience').html('No PACE completed');
+      $('#scoreScience').html('0');
+    
+
+ 
+    }
+
+
+    for (var i = 0; i < wordBuildingMarks.length; i++ ) {
+    
+        sumWordBuilding += parseInt( wordBuildingMarks[i], 10);
+    }
+
+    var wordBuildingAvg = sumWordBuilding/wordBuildingMarks.length;
+
+    if (wordBuildingAvg >= 0) {
+     $('#wordBuildingAverage').html('Average Score <br><b>' +wordBuildingAvg+ '%</b>');
+
+    } else {
+    
+    $('#paceWordBuilding').html('No PACE completed');
+      $('#scoreWordBuilding').html('0');
+    
+
+ 
+    }
+
+
+
+    for ( var i = 0; i < socialStudiesMarks.length; i++ ){
+          sumSocialStudies += parseInt( socialStudiesMarks[i], 10);
+    }
+
+    var socialStudiesAvg = sumSocialStudies/socialStudiesMarks.length;
+
+    
+
+    if (socialStudiesAvg >= 0) {
+     $('#socialStudiesAverage').html('Average Score <br><b>' +socialStudiesAvg+ '%</b>');
+    } else {
+     $('#paceSocialStudies').html('No PACE completed');
+      $('#scoreSocialStudies').html('0');
+    }
+
+
+
+    for ( var i = 0; i < literatureMarks.length; i++ ){
+          sumLiterature += parseInt( literatureMarks[i], 10);
+    }
+
+    var literatureAvg = sumLiterature/literatureMarks.length;
+
+    
+
+    if (literatureAvg >= 0) {
+     $('#literatureAverage').html('Average Score <br><b>' +literatureAvg+ '%</b>');
+    } else {
+     $('#paceLiterature').html('No PACE completed');
+      $('#scoreLiterature').html('0');
+    }
+
+
+
+    
+     
+  
+ 
+    })();
+   
+   
+  
+</script>
+
+@if (student == null && upperStudent == null)
+ {     
+    <p class="win-type-header">
+        Unable to fetch Student details.   
+           
+    </p> 
+  <p class="win-type-title">      
+        Try browsing one of the Learning Centers listed to the left.   
+       </p> 
+
+         } else if (upperStudent != null ) {
+             <script type="text/javascript" src="../js/ReportDetail.js"></script>
+             
+ Page.Title = student.otherNames;
+
+ 
+
+    <text>
+  
+
+    
+ 
+   
+
+    <p class="win-type-header">This is the Bible class - we have no option but to praise God</p>
+            <section class="grading-section bg-1">
+                 
+           <div class="grading grading--subject">
+                    <div class="grading__item">
+                    <h3 class="grading__title">Mathematics</h3>
+                    <div style="color: #ef4135;" class="grading__price">
+                        <div class="subjectColumn">
+                        <span id="paceMathematic" class="grading__currency">PACE</span> 
+                            <span class="grading__currency"> </span>  </div><div class="subjectColumn">
+                            <small id="scoreMathematic">SCORE</small><span class="grading__currency">%</span></div></div>
+                     @foreach ( var paceResultID in db.Query(sqlSelectMathematicResults, studentID) )
+      {
+                    <div class="grading__price">
+                        <div class="subjectColumn">
+                        <span class="grading__currency">@paceResultID.paceNo </span> 
+                                                <span class="grading__currency"> </span>      </div>  <div class="subjectColumn">
+                                                @paceResultID.score<span class="grading__currency">%</span>
+                    </div> </div>
+
+
+                    <p class="win-type-body grading__sentence"><small>@paceResultID.paceComment</small></p>
+<ul class="grading__feature-list">
+                        <li class="grading__feature">Supervisor's Comment</li></ul>
+
+   }
+   <h1 id="mathematicAverage" class="win-type-title"></h1>   
+                
+                   
+                </div>
+                 <div class="grading__item">
+                    <h3 class="grading__title">English</h3>
+                    <div style="color: #ef4135;" class="grading__price">
+                        <div class="subjectColumn">
+                        <span id="paceEnglish" class="grading__currency">PACE</span> 
+                            <span class="grading__currency"> </span>  </div><div class="subjectColumn">
+                            <small id="scoreEnglish">SCORE</small><span class="grading__currency">%</span></div></div>
+                     @foreach ( var paceResultID in db.Query(sqlSelectEnglishResults, studentID) )
+      {
+                    <div class="grading__price">
+                        <div class="subjectColumn">
+                        <span class="grading__currency">@paceResultID.paceNo </span> 
+                                                <span class="grading__currency"> </span>      
+                        </div> 
+                         <div class="subjectColumn">
+                                                @paceResultID.score<span class="grading__currency">%</span>
+                    </div> </div>
+
+
+                    <p class="win-type-body grading__sentence"><small>@paceResultID.paceComment</small></p>
+  <ul class="grading__feature-list">
+                        <li class="grading__feature">@paceResultID.teacherName 's Comment</li></ul>
+
+                
+   }
+
+     <h1 id="englishAverage" class="win-type-title"></h1>         
+      
+                   
+                </div>
+                <div class="grading__item">
+                    <h3 class="grading__title">Science </h3>
+                    <div style="color: #ef4135;" class="grading__price">
+                        <div class="subjectColumn">
+                        <span id="paceScience" class="grading__currency">PACE</span> 
+                            <span class="grading__currency"> </span>  </div><div class="subjectColumn">
+                            <small id="scoreScience">SCORE</small><span class="grading__currency">%</span></div></div>
+                     @foreach ( var paceResultID in db.Query(sqlSelectScienceResults, studentID) )
+      {
+                    <div class="grading__price">
+                        <div class="subjectColumn">
+                        <span class="grading__currency">@paceResultID.paceNo </span> 
+                                                <span class="grading__currency"> </span>      </div>  <div class="subjectColumn">
+                                                @paceResultID.score<span class="grading__currency">%</span>
+                    </div> </div>
+
+<ul class="grading__feature-list">
+                        <li class="grading__feature">Supervisor's Comment</li></ul>
+                    <p class="win-type-body grading__sentence"><small>@paceResultID.paceComment</small></p>
+   }
+
+                
+     <h1 id="scienceAverage" class="win-type-title"></h1>     
+                   
+                </div>
+              
+          
+
+           </div>
+
+            <div class="grading grading--subject">
+                 <div class="grading__item">
+                    <h3 class="grading__title">Literature</h3>
+                    <div style="color: #ef4135;" class="grading__price">
+                        <div class="subjectColumn">
+                        <span id="paceLiterature" class="grading__currency">PACE</span> 
+                            <span class="grading__currency"> </span>  </div><div class="subjectColumn">
+                            <small id="scoreLiterature">SCORE</small><span class="grading__currency">%</span></div></div>
+                     @foreach ( var paceResultID in db.Query(sqlSelectLiteratureResults, studentID) )
+      {
+                    <div class="grading__price">
+                        <div class="subjectColumn">
+                        <span class="grading__currency">@paceResultID.paceNo </span> 
+                                                <span class="grading__currency"> </span>      </div>  <div class="subjectColumn">
+                                                @paceResultID.score<span class="grading__currency">%</span>
+                    </div> </div>
+
+<ul class="grading__feature-list">
+                        <li class="grading__feature">Supervisor's Comment</li></ul>
+                    <p class="win-type-body grading__sentence"><small>@paceResultID.paceComment</small></p>
+   }
+   <h1 id="literatureAverage" class="win-type-title"></h1>   
+                
+                   
+                </div>
+                 <div class="grading__item">
+                    <h3 class="grading__title">Word Building </h3>
+                    <div style="color: #ef4135;" class="grading__price">
+                        <div class="subjectColumn">
+                        <span id="paceWordBuilding" class="grading__currency">PACE</span> 
+                            <span class="grading__currency"> </span>  </div><div class="subjectColumn">
+                            <small id="scoreWordBuilding" >SCORE</small><span class="grading__currency">%</span></div></div>
+                     @foreach ( var paceResultID in db.Query(sqlSelectWordBuildingResults, studentID) )
+      {
+                    <div class="grading__price">
+                        <div class="subjectColumn">
+                        <span class="grading__currency">@paceResultID.paceNo </span> 
+                                                <span class="grading__currency"> </span>      </div>  <div class="subjectColumn">
+                                                @paceResultID.score<span class="grading__currency">%</span>
+                    </div> </div>
+
+<ul class="grading__feature-list">
+                        <li class="grading__feature">Supervisor's Comment</li></ul>
+                    <p class="win-type-body grading__sentence"><small>@paceResultID.paceComment</small></p>
+   }
+
+                
+       <h1 id="wordBuildingAverage" class="win-type-title"></h1>   
+                   
+                </div>
+                <div class="grading__item">
+                    <h3 class="grading__title">Social Studies </h3>
+                    <div style="color: #ef4135;" class="grading__price">
+                        <div class="subjectColumn">
+                        <span id="paceSocialStudies" class="grading__currency">PACE</span> 
+                            <span class="grading__currency"> </span>  </div><div class="subjectColumn">
+                            <small id="scoreSocialStudies">SCORE</small><span class="grading__currency">%</span></div></div>
+                     @foreach ( var paceResultID in db.Query(sqlSelectSocialStudiesResults, studentID) )
+      {
+                    <div class="grading__price">
+                        <div class="subjectColumn">
+                        <span class="grading__currency">@paceResultID.paceNo </span> 
+                                                <span class="grading__currency"> </span>      </div>  <div class="subjectColumn">
+                                                @paceResultID.score<span class="grading__currency">%</span>
+                    </div> </div>
+
+<ul class="grading__feature-list">
+                        <li class="grading__feature">Supervisor's Comment</li></ul>
+                    <p class="win-type-body grading__sentence"><small>@paceResultID.paceComment</small></p>
+   }
+    <h1 id="socialStudiesAverage" class="win-type-title"></h1>   
+                
+    
+                   
+                </div>
+            </div>
+          
+           
+          
+        
+  @reportGrid.GetHtml( tableStyle: "webgrid", headerStyle:"header", 
+                    alternatingRowStyle:"alt", columns: reportGrid.Columns (reportGrid.Column("extraCurricularTitle", canSort: true),
+                       
+                        reportGrid.Column("teacherName"),
+                        reportGrid.Column("comment")
+                       
+                         
+    
+)
+)
+
+</section>
+ 
+
+         
+       
+
+   
+</text>
+
+
+         }
+         
+else {
+    Page.Title = student.otherNames;
+    <text>
+
+            <section class="grading-section bg-1">
+                 
+           <div class="grading grading--subject">
+                    <div class="grading__item">
+                    <h3 class="grading__title">Mathematics</h3>
+                    <div style="color: #ef4135;" class="grading__price">
+                        <div class="subjectColumn">
+                        <span id="paceMathematic" class="grading__currency">PACE</span> 
+                            <span class="grading__currency"> </span>  </div><div class="subjectColumn">
+                            <small id="scoreMathematic">SCORE</small><span class="grading__currency">%</span></div></div>
+                     @foreach ( var paceResultID in db.Query(sqlSelectMathematicResults, studentID) )
+      {
+                    <div class="grading__price">
+                        <div class="subjectColumn">
+                        <span class="grading__currency">@paceResultID.paceNo </span> 
+                                                <span class="grading__currency"> </span>      </div>  <div class="subjectColumn">
+                                                @paceResultID.score<span class="grading__currency">%</span>
+                    </div> </div>
+
+
+                    <p class="win-type-body grading__sentence"><small>@paceResultID.paceComment</small></p>
+<ul class="grading__feature-list">
+                        <li class="grading__feature">Supervisor's Comment</li></ul>
+
+   }
+   <h1 id="mathematicAverage" class="win-type-title"></h1>   
+                
+                   
+                </div>
+                 <div class="grading__item">
+                    <h3 class="grading__title">English</h3>
+                    <div style="color: #ef4135;" class="grading__price">
+                        <div class="subjectColumn">
+                        <span id="paceEnglish" class="grading__currency">PACE</span> 
+                            <span class="grading__currency"> </span>  </div><div class="subjectColumn">
+                            <small id="scoreEnglish">SCORE</small><span class="grading__currency">%</span></div></div>
+                     @foreach ( var paceResultID in db.Query(sqlSelectEnglishResults, studentID) )
+      {
+                    <div class="grading__price">
+                        <div class="subjectColumn">
+                        <span class="grading__currency">@paceResultID.paceNo </span> 
+                                                <span class="grading__currency"> </span>      
+                        </div> 
+                         <div class="subjectColumn">
+                                                @paceResultID.score<span class="grading__currency">%</span>
+                    </div> </div>
+
+
+                    <p class="win-type-body grading__sentence"><small>@paceResultID.paceComment</small></p>
+  <ul class="grading__feature-list">
+                        <li class="grading__feature">@paceResultID.teacherName 's Comment</li></ul>
+
+                
+   }
+
+     <h1 id="englishAverage" class="win-type-title"></h1>         
+      
+                   
+                </div>
+                <div class="grading__item">
+                    <h3 class="grading__title">Science </h3>
+                    <div style="color: #ef4135;" class="grading__price">
+                        <div class="subjectColumn">
+                        <span id="paceScience" class="grading__currency">PACE</span> 
+                            <span class="grading__currency"> </span>  </div><div class="subjectColumn">
+                            <small id="scoreScience">SCORE</small><span class="grading__currency">%</span></div></div>
+                     @foreach ( var paceResultID in db.Query(sqlSelectScienceResults, studentID) )
+      {
+                    <div class="grading__price">
+                        <div class="subjectColumn">
+                        <span class="grading__currency">@paceResultID.paceNo </span> 
+                                                <span class="grading__currency"> </span>      </div>  <div class="subjectColumn">
+                                                @paceResultID.score<span class="grading__currency">%</span>
+                    </div> </div>
+
+<ul class="grading__feature-list">
+                        <li class="grading__feature">Supervisor's Comment</li></ul>
+                    <p class="win-type-body grading__sentence"><small>@paceResultID.paceComment</small></p>
+   }
+
+                
+     <h1 id="scienceAverage" class="win-type-title"></h1>     
+                   
+                </div>
+              
+          
+
+           </div>
+
+            <div class="grading grading--subject">
+                 <div class="grading__item">
+                    <h3 class="grading__title">Literature</h3>
+                    <div style="color: #ef4135;" class="grading__price">
+                        <div class="subjectColumn">
+                        <span id="paceLiterature" class="grading__currency">PACE</span> 
+                            <span class="grading__currency"> </span>  </div><div class="subjectColumn">
+                            <small id="scoreLiterature">SCORE</small><span class="grading__currency">%</span></div></div>
+                     @foreach ( var paceResultID in db.Query(sqlSelectLiteratureResults, studentID) )
+      {
+                    <div class="grading__price">
+                        <div class="subjectColumn">
+                        <span class="grading__currency">@paceResultID.paceNo </span> 
+                                                <span class="grading__currency"> </span>      </div>  <div class="subjectColumn">
+                                                @paceResultID.score<span class="grading__currency">%</span>
+                    </div> </div>
+
+<ul class="grading__feature-list">
+                        <li class="grading__feature">Supervisor's Comment</li></ul>
+                    <p class="win-type-body grading__sentence"><small>@paceResultID.paceComment</small></p>
+   }
+   <h1 id="literatureAverage" class="win-type-title"></h1>   
+                
+                   
+                </div>
+                 <div class="grading__item">
+                    <h3 class="grading__title">Word Building </h3>
+                    <div style="color: #ef4135;" class="grading__price">
+                        <div class="subjectColumn">
+                        <span id="paceWordBuilding" class="grading__currency">PACE</span> 
+                            <span class="grading__currency"> </span>  </div><div class="subjectColumn">
+                            <small id="scoreWordBuilding" >SCORE</small><span class="grading__currency">%</span></div></div>
+                     @foreach ( var paceResultID in db.Query(sqlSelectWordBuildingResults, studentID) )
+      {
+                    <div class="grading__price">
+                        <div class="subjectColumn">
+                        <span class="grading__currency">@paceResultID.paceNo </span> 
+                                                <span class="grading__currency"> </span>      </div>  <div class="subjectColumn">
+                                                @paceResultID.score<span class="grading__currency">%</span>
+                    </div> </div>
+
+<ul class="grading__feature-list">
+                        <li class="grading__feature">Supervisor's Comment</li></ul>
+                    <p class="win-type-body grading__sentence"><small>@paceResultID.paceComment</small></p>
+   }
+
+                
+       <h1 id="wordBuildingAverage" class="win-type-title"></h1>   
+                   
+                </div>
+                <div class="grading__item">
+                    <h3 class="grading__title">Social Studies </h3>
+                    <div style="color: #ef4135;" class="grading__price">
+                        <div class="subjectColumn">
+                        <span id="paceSocialStudies" class="grading__currency">PACE</span> 
+                            <span class="grading__currency"> </span>  </div><div class="subjectColumn">
+                            <small id="scoreSocialStudies">SCORE</small><span class="grading__currency">%</span></div></div>
+                     @foreach ( var paceResultID in db.Query(sqlSelectSocialStudiesResults, studentID) )
+      {
+                    <div class="grading__price">
+                        <div class="subjectColumn">
+                        <span class="grading__currency">@paceResultID.paceNo </span> 
+                                                <span class="grading__currency"> </span>      </div>  <div class="subjectColumn">
+                                                @paceResultID.score<span class="grading__currency">%</span>
+                    </div> </div>
+
+<ul class="grading__feature-list">
+                        <li class="grading__feature">Supervisor's Comment</li></ul>
+                    <p class="win-type-body grading__sentence"><small>@paceResultID.paceComment</small></p>
+   }
+    <h1 id="socialStudiesAverage" class="win-type-title"></h1>   
+                
+    
+                   
+                </div>
+            </div>
+          
+           
+          
+        
+  @reportGrid.GetHtml( tableStyle: "webgrid", headerStyle:"header", 
+                    alternatingRowStyle:"alt", columns: reportGrid.Columns (reportGrid.Column("extraCurricularTitle", canSort: true),
+                       
+                        reportGrid.Column("teacherName"),
+                        reportGrid.Column("comment")
+                       
+                         
+    
+)
+)
+
+</section>
+
+</text>
+
+
+
+}
+
+

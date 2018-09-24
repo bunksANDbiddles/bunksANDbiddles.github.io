@@ -1,0 +1,125 @@
+﻿@{
+    
+Layout = "~/bunks/Shared/Layouts/_AdminLayout.cshtml";
+ Page.Title = "Edit Class"; 
+
+ var studentID = "new";
+ var firstName = "";
+ var otherNames = "";
+ var admissionNo = "";
+
+ var classLevel = "";
+
+ var db = Database.Open("BunksAndBiddlesSchool"); 
+
+  // Retrieve student details associated to the Student ID passed in the URL
+ if (!UrlData[0].IsEmpty())
+ {
+ studentID = UrlData[0];
+
+ var sqlCommand = "SELECT * FROM Students WHERE studentID = @0";
+ var student = db.QuerySingle(sqlCommand, studentID);
+
+ firstName = student.firstName;
+ otherNames = student.otherNames;
+ admissionNo = student.admissionNo;
+
+ 
+ classLevel = student.classLevel.ToString();
+ } 
+
+
+  if(IsPost)
+ {
+ studentID = Request["studentID"];
+ firstName = Request["firstName"];
+ otherNames = Request["otherNames"];
+ admissionNo = Request["admissionNo"];
+
+ classLevel = Request["classLevel"];
+
+ // Validation 
+
+ if (firstName.IsEmpty())
+ {
+ ModelState.AddError("firstName", "Student First Name cannot be blank");
+ }
+
+ if (otherNames.IsEmpty())
+ {
+ ModelState.AddError("otherNames", "Student Other Names cannot be blank");
+ }
+
+ if (admissionNo.IsEmpty())
+ {
+ ModelState.AddError("admissionNo", "admission Number cannot be blank");
+ }
+ 
+
+
+
+ 
+ if(ModelState.IsValid)
+ {
+ var sql = "";
+ if (studentID == "new")
+ {
+ // Insert new Student record
+ sql = "INSERT INTO Students (firstName, otherNames, admissionNo, " +
+ "dateOfBirth) VALUES (@0, @1, @2, @3, @4)";
+ }
+ else
+ {
+ // Update existing student record
+ sql = "UPDATE Students SET firstName = @0, otherNames = @1, " +
+ "admissionNo = @2 " +
+ "WHERE studentID = @3";
+ }
+
+ db.Execute(sql, firstName, otherNames, admissionNo,
+ classLevel, studentID);
+
+ Response.Redirect("~/bunks/Admin/Students/");
+ }
+ }   
+    
+}
+
+<h1 class="win-type-title">Student Details</h1>
+<hr/>
+<br/>
+<form action="" method="post">
+
+
+<div class="column">
+ <p class="win-type-body">
+ @Html.Hidden("studentID", studentID)
+      @Html.Hidden("classLevel", classLevel)
+ @Html.Label("First Name:", firstName)<br />
+<input type='text' name="firstName" class='win-textbox'  />
+@Html.ValidationMessage("firstName") 
+     </p>
+
+     <p class="win-type-body">
+
+ @Html.Label("Other Names:", otherNames)<br />
+<input type='text' name="otherNames" class='win-textbox'  />
+@Html.ValidationMessage("otherNames") 
+     </p>
+
+  
+    </div>
+
+      <div class="column">
+      <p class="win-type-body">
+
+ @Html.Label("Admission No:", admissionNo)<br />
+<input type='text' name="admissionNo" class='win-textbox'  />
+@Html.ValidationMessage("admissionNo") 
+     </p>
+   
+        </div>
+
+   <input type='submit'  class='win-button'  />
+</form>
+

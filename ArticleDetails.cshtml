@@ -1,0 +1,44 @@
+﻿@{
+    Layout = "~/Shared/Layouts/_BlogLayout.cshtml";
+    var PostID = !UrlData[0].IsEmpty() ? UrlData[0] : "0"; 
+    var db = Database.Open("BunksWebsite");
+ var sqlSelect = "SELECT * FROM Post WHERE PostID = @0";  
+ var post = db.QuerySingle(sqlSelect, PostID); 
+    
+}
+
+@if (post == null)
+{
+ <p>
+ Unable to fetch product details.
+ Try browsing one of the categories listed to the left.
+ </p>
+}
+else
+{ 
+<text>
+<section class="mockup-section paint-area">
+						<div class="mockup-content">
+							<div class="mockup-blogheader">
+								<p class="paint-area paint-area--text win-type-header">@post.Title</p>
+								<footer class="paint-area paint-area--text ">Author <span>@post.author</span></footer>
+                                <footer class="paint-area paint-area--text ">Date Posted <span>@post.DatePosted</span></footer>
+							</div>
+						</div><!-- /mockup-grid -->
+    	<div class="mockup-content">
+							<div class="mockup-blogArticle">
+                                
+								<p class="paint-area paint-area--text win-type-subheader">@post.Content</p>
+								<a href="@post.urlLink" class="paint-area paint-area--text win-type-header">Read More</a>
+							</div>
+						</div><!-- /mockup-grid -->
+					</section>
+
+
+
+
+
+
+</text>
+
+    }

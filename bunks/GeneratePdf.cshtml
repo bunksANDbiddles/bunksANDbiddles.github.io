@@ -1,0 +1,40 @@
+﻿@using iTextSharp.text;
+@using iTextSharp.text.html.simpleparser;
+@using iTextSharp.text.pdf;
+@{
+     Layout = "~/Shared/layouts/_layout.cshtml";
+    Response.AddHeader("Content-disposition", "attachment; filename=report.pdf");
+    Response.ContentType = "application/octet-stream";
+
+     Response.Cache.SetCacheability(HttpCacheability.NoCache);
+     StringWriter sw = new StringWriter();
+
+    HtmlTextWriter hw = new HtmlTextWriter(sw);
+
+    
+
+    StringReader sr = new StringReader(sw.ToString());
+
+    
+           var doc = new Document();
+   
+    doc.SetPageSize(PageSize.A4.Rotate());
+    HTMLWorker htmlparser = new HTMLWorker(doc);
+     PdfWriter.GetInstance(doc,Response.OutputStream);
+    var arial = FontFactory.GetFont("Arial", 8, Color.BLACK);
+    var arialBold = FontFactory.GetFont("Arial", 10, Font.BOLD, Color.BLACK);
+    doc.Open();
+       htmlparser.Parse(sr); 
+    //use a variable to let my code fit across the page...
+
+    doc.Add(new Page());
+
+       
+             
+         
+    doc.Close();
+     Response.Write(doc);
+
+    Response.End();
+       
+}

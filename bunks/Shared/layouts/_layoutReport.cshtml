@@ -1,0 +1,179 @@
+﻿
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+       	<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+        <title>Bunks &amp; Biddles - @Page.Title</title>
+          <link href="@Href("~/bunks/Css/Style.css")" rel="stylesheet" /> 
+         <link href="@Href("~/bunks/Css/component.css")" rel="stylesheet" /> 
+         <link href="/WinJS/css/ui-dark.css" rel="stylesheet" />
+        <link href="/bunks/css/mdl2.css" rel="stylesheet">
+        <script src="@Href("/WinJS/js/base.js")" type="text/javascript"></script>
+        <script src="@Href("/WinJS/js/ui.js")" type="text/javascript"></script>
+         <script  src="@Href("bunks/js/default.js")" type="text/javascript"></script>
+            <link type="text/css" href="@Href("~/bunks/Styles/jquery-ui-1.8.4.custom.css")" rel="stylesheet" />
+        <script type="text/javascript" src="@Href("~/bunks/Scripts/jquery-1.8.2.min.js")"></script>
+        <script type="text/javascript" src="@Href("~/bunks/Scripts/jquery-ui-1.8.4.custom.min.js")"></script>
+        
+
+       
+        <script type="text/javascript">    
+          
+          
+        </script>
+        <script type="text/javascript" src="../bunks/js/Layout.js"></script>
+        <link rel="stylesheet" type="text/css" href="/bunks/css/icons.css" />
+		
+        <link rel="stylesheet" type="text/css" href="/bunks/css/set1.css" />
+        <link rel="stylesheet" type="text/css" href="/bunks/css/set2.css" />
+        <link rel="stylesheet" type="text/css" href="/bunks/css/normalize.css" />
+
+        <script src="../bunks/Scripts/modernizr-2.6.2.js"></script>
+     
+		
+
+        		
+
+        @RenderSection("head", required: false)
+     
+    </head>
+    <body>
+
+         <div id="app" >
+        <div class="splitView" data-win-control="WinJS.UI.SplitView">
+        <!-- Pane area -->
+        <div>
+          <div class="header">
+                <button
+                    class="win-splitviewpanetoggle"
+                    data-win-control="WinJS.UI.SplitViewPaneToggle"
+                    data-win-options="{ splitView: select('.splitView') }"></button>
+                <div class="title"> 
+                  
+                      </div>
+              
+            </div>
+
+            <div id="classes" class="win-type-subtitle"> 
+
+
+
+
+
+
+
+
+               
+                <div class="school">
+               <div id="search">@RenderPage("~/bunks/Shared/Partials/_Search.cshtml")
+
+                  </div>
+                <div id="primarySection">
+             @RenderPage("~/bunks/Shared/Partials/_Classes.cshtml") 
+                    </div>
+                      <h1  class="win-type-body" style="color: #ef4135">&#xE125; Supervisor</h1>
+                      <hr/>
+                    <div class="column">
+                  
+                       @MembershipHelpers.AccountSummary()
+               
+                </div> 
+                               
+                    </div>   
+            </div>
+        </div>
+
+
+         <div class="contenttext">
+
+   <div class="container">
+       
+             <header>
+				  
+               <a href="@Href("~/bunks/")"><img  height="165px" src="../images/bunkslogo.png" alt="bunkslogo"></a>
+
+                  <div id="headerRight">   
+                       
+                        
+                  </div> 
+                </header>
+   
+             
+                  
+               
+
+                  
+				  
+                 
+			
+					
+
+
+
+
+
+
+    @RenderBody()  
+
+
+
+
+
+
+
+
+
+
+
+      
+
+                       
+                          
+      
+
+             
+        
+              	    
+               </div> 
+
+
+            
+               <section class="content bgcolor-4" >
+              <p class="win-type-subtitle">  &copy;@DateTime.Now.Year  Bunks and Biddles Schools. All rights reserved. </p>
+                  
+              </section>
+
+            </div>
+          
+                
+        </div> 
+
+     <div data-win-control="WinJS.UI.HtmlControl"      data-win-options="{uri: '/Shared/layouts/addItemFlyout.cshtml'}"></div>
+             <div id="createNavBar" data-win-control="WinJS.UI.NavBar" data-win-options="{
+    placement: 'bottom',
+    oninvoked: Sample.navBarInvoked
+}">
+    <div data-win-control="WinJS.UI.NavBarContainer">
+        <a href="../Default.cshtml">  <div data-win-control="WinJS.UI.NavBarCommand" data-win-options="{ label: 'Home', icon: 'home' }"></div></a>
+       <a href="../KinderDefault.cshtml"> <div data-win-control="WinJS.UI.NavBarCommand" data-win-options="{ label: 'Kindergarten', icon: '&#xE16D;' }">
+       </div></a>
+        
+    </div>
+</div>     
+                                
+            </div>
+                        
+            
+       
+			
+	
+
+
+    
+    </body>
+</html>

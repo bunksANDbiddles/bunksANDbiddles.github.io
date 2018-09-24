@@ -1,0 +1,33 @@
+﻿@{     
+    
+    Layout = "~/bunks/Shared/Layouts/_AdminLayout.cshtml";     
+    Page.Title = "Delete Subject Result";          
+    
+    var reportID  = UrlData[0];     
+    if (reportID.IsEmpty()) {          
+        Response.Redirect("~/bunks/Admin/kindergartenSubjects/");     
+    }          
+    
+    var db = Database.Open("BunksAndBiddlesSchool");          
+    
+    if (IsPost)    
+     {         
+         var sqlDelete = "DELETE FROM KindergartenReport WHERE reportID = @0";         
+         db.Execute(sqlDelete, reportID);         
+         Response.Redirect("~/bunks/Admin/kindergartenSubjects/");
+     }  
+
+    var sqlSelect = "SELECT * FROM KindergartenReport WHERE reportID = @0";
+    var results = db.QuerySingle(sqlSelect, reportID);   
+        } 
+
+ <p>         
+        Are you sure you want to delete the @results.AdmissionNo classes?     
+    </p>     
+       
+    <form action="" method="post" id="deleteForm">             
+        <input class="win-button" type="button" onclick="window.location = '@Href("~/bunks/Admin/reports/")';" value="Cancel" />    
+        <input class="win-button" type="submit" value="Delete" />         
+    </form>     
+
+

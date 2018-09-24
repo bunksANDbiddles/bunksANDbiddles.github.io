@@ -1,0 +1,298 @@
+﻿@functions {
+    public enum DisplayTypes {
+        JavaScript,
+        Button,
+        All
+    }
+
+    public enum AnnotationTypes{
+        Bubble,
+        Inline,
+        None
+    }
+
+    public enum Languages {
+        Afrikaans,
+        Amharic,
+        Arabic,
+        Basque,
+        Bengali,
+        Bulgarian,
+        Catalan,
+        ChineseHongKong,
+        ChineseSimplified,
+        ChineseTraditional,
+        Croatian,
+        Czech,
+        Danish,
+        Dutch,
+        EnglishUS,
+        EnglishUK,
+        Estonian,
+        Filipino,
+        Finnish,
+        French,
+        FrenchCanada,
+        Galician,
+        German,
+        Greek,
+        Gujarati,
+        Hebrew,
+        Hindi,
+        Hungarian,
+        Icelandic,
+        Indonesian,
+        Italian,
+        Japanese,
+        Kannada,
+        Korean,
+        Latvian,
+        Lithuanian,
+        Malay,
+        Malayalam,
+        Marathi,
+        Norwegian,
+        Persian,
+        Polish,
+        PortugueseBrazil,
+        PortuguesePortugal,
+        Romanian,
+        Russian,
+        Serbian,
+        Slovak,
+        Slovenian,
+        Spanish,
+        SpanishLatinAmerica,
+        Swahili,
+        Swedish,
+        Tamil,
+        Telugu,
+        Thai,
+        Turkish,
+        Ukrainian,
+        Urdu,
+        Vietnamese,
+        Zulu
+    }
+
+    public enum Sizes {
+        Small,
+        Standard,
+        Medium,
+        Tall
+    }
+    
+    ///<summary>
+    /// Returns the associated language code for the specified language
+    ///</summary>
+    ///<param name="language">The language code for the provided language.</param>
+    public static string GetLanguageCode(Languages language) {
+        switch (language) {
+            case Languages.Afrikaans:
+                return "af";
+            case Languages.Amharic:
+                return "am";
+            case Languages.Arabic:
+                return "ar";
+            case Languages.Basque:
+                return "eu";
+            case Languages.Bengali:
+                return "bn";
+            case Languages.Bulgarian:
+                return "bg";
+            case Languages.Catalan:
+                return "ca";
+            case Languages.ChineseHongKong:
+                return "zh-HK";
+            case Languages.ChineseSimplified:
+                return "zh-CN";
+            case Languages.ChineseTraditional:
+                return "zh-TW";
+            case Languages.Croatian:
+                return "hr";
+            case Languages.Czech:
+                return "cs";
+            case Languages.Danish:
+                return "da";
+            case Languages.Dutch:
+                return "nl";
+            case Languages.EnglishUS:
+                return "en-US";
+            case Languages.EnglishUK:
+                return "en-GB";
+            case Languages.Estonian:
+                return "et";
+            case Languages.Filipino:
+                return "fil";
+            case Languages.Finnish:
+                return "fi";
+            case Languages.French:
+                return "fr";
+            case Languages.FrenchCanada:
+                return "fr-CA";
+            case Languages.Galician:
+                return "gl";
+            case Languages.Gujarati:
+                return "gu";
+            case Languages.German:
+                return "de";
+            case Languages.Greek:
+                return "el";
+            case Languages.Hebrew:
+                return "iw";
+            case Languages.Hindi:
+                return "hi";
+            case Languages.Hungarian:
+                return "hu";
+            case Languages.Icelandic:
+                return "is";
+            case Languages.Indonesian:
+                return "id";
+            case Languages.Italian:
+                return "it";
+            case Languages.Japanese:
+                return "ja";
+            case Languages.Kannada:
+                return "kn";
+            case Languages.Korean:
+                return "ko";
+            case Languages.Latvian:
+                return "lv";
+            case Languages.Lithuanian:
+                return "lt";
+            case Languages.Malay:
+                return "ms";
+            case Languages.Malayalam:
+                return "ml";
+            case Languages.Marathi:
+                return "mr";
+            case Languages.Norwegian:
+                return "no";
+            case Languages.Persian:
+                return "fa";
+            case Languages.Polish:
+                return "pl";
+            case Languages.PortugueseBrazil:
+                return "pt-BR";
+            case Languages.PortuguesePortugal:
+                return "pt-PT";
+            case Languages.Romanian:
+                return "ro";
+            case Languages.Russian:
+                return "ru";
+            case Languages.Serbian:
+                return "sr";
+            case Languages.Swahili:
+                return "sw";
+            case Languages.Swedish:
+                return "sv";
+            case Languages.Slovak:
+                return "sk";
+            case Languages.Slovenian:
+                return "sl";
+            case Languages.Spanish:
+                return "es";
+            case Languages.SpanishLatinAmerica:
+                return "es-419";
+            case Languages.Tamil:
+                return "ta";
+            case Languages.Telugu:
+                return "te";
+            case Languages.Thai:
+                return "th";
+            case Languages.Turkish:
+                return "tr";
+            case Languages.Ukrainian:
+                return "uk";
+            case Languages.Urdu:
+                return "ur";
+            case Languages.Vietnamese:
+                return "vi";
+            case Languages.Zulu:
+                return "zu";
+            default:
+                return "";
+        }
+    }
+
+    ///<summary>
+    /// Returns the associated size code for the specified size
+    ///</summary>
+    ///<param name="size">The size code for the provided language.</param>
+    public static string GetSizeCode(Sizes size) {
+        switch (size) {
+            case Sizes.Small:
+                return "small";
+            case Sizes.Medium:
+                return "medium";
+            case Sizes.Standard:
+                return "standard";
+            case Sizes.Tall:
+                return "tall";
+            default:
+                return "standard";
+        }
+    }
+
+    ///<summary>
+    /// Returns the associated annotation code for the specified annotation
+    ///</summary>
+    ///<param name="annotation">The annotation code for the provided type.</param>
+    public static string GetAnnotationCode(AnnotationTypes annotation) {
+        switch (annotation) {
+            case AnnotationTypes.Bubble:
+                return "";
+            case AnnotationTypes.Inline:
+                return "inline";
+            case AnnotationTypes.None:
+                return "none";
+            default:
+                return "";
+        }
+    }
+
+}
+
+@*
+Summary:
+    Shows a Google +1 button.
+
+Parameter: language
+    The language to use when displaying the button. Defaults to English (US).
+Parameter: size
+    The size to use when displaying the button. Defaults to Standard.
+Parameter: display
+    Whether to output the JavaScript block (DisplayTypes.JavaScript), the +1 button (DisplayTypes.Button), or both (DisplayTypes.All, default)
+Parameter: annotation
+    How to show +1 button information (bubble, inline, none). Defaults to bubble (AnnotationTypes.Bubble).
+Parameter: width
+    The width of the +1 button in pixels. Defaults to 450.
+*@
+@helper PlusOneButton(
+            Languages language = Languages.EnglishUS,
+            Sizes size = Sizes.Standard,
+            DisplayTypes display = DisplayTypes.All,
+            AnnotationTypes annotation = AnnotationTypes.Bubble,
+            int width = 450) {
+    var languageCode = new HtmlString(!GetLanguageCode(language).IsEmpty() ? "window.___gcfg = {" + string.Format("lang: '{0}'", GetLanguageCode(language)) + "};" : "");
+    var sizeAttribute = new HtmlString(!GetSizeCode(size).IsEmpty() && GetSizeCode(size) != "standard" ? string.Format("data-size=\"{0}\"", GetSizeCode(size)) : "");
+    var annotationAttribute = new HtmlString(!GetAnnotationCode(annotation).IsEmpty() ? string.Format(" data-annotation=\"{0}\"", GetAnnotationCode(annotation)) : "");
+    var widthAttribute = new HtmlString(width != 450 ? string.Format(" data-width=\"{0}\"", width) : "");
+                
+  if (display == DisplayTypes.Button || display == DisplayTypes.All) {
+<div class="g-plusone" @sizeAttribute@annotationAttribute@widthAttribute></div>
+  }
+
+  if (display == DisplayTypes.JavaScript || display == DisplayTypes.All) {
+<script type="text/javascript">
+  @languageCode
+
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/platform.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+  }
+}
+

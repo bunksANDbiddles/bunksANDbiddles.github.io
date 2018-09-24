@@ -1,0 +1,65 @@
+﻿@{
+    Layout = "~/Shared/layouts/_BlogLayout.cshtml";
+
+    var BlogTitle = UrlData[0];
+
+    if (BlogTitle.IsEmpty())
+    {
+        Response.Redirect("/Blog");
+    }
+
+    Page.Title = BlogTitle;
+
+    var db = Database.Open("BunksWebsite");
+    var sqlSelect = "SELECT PostID, Title, Content, BlogCategory, Author, DatePosted FROM Post " +
+                    "LEFT OUTER JOIN Blog ON Post.Blogcategory = Blog.BlogID " +
+                    "WHERE Blog.BlogTitle = @0";
+    var posts = db.Query(sqlSelect, BlogTitle);
+    
+}
+
+
+
+	<section class="mockup-nav  mockup-section--dark paint-area">
+					
+						
+								<h1 style="text-align: center;" class="mockup-heading mockup-heading--large paint-area paint-area--text">@BlogTitle<span class="mockup-heading__subline"></span></h1>
+							
+					
+						
+					
+					</section>
+
+@if (posts.Count() == 0)
+{
+ <p class="win-type-header">
+ No articles found in this Blog post.
+
+ </p>
+<p class="win-type-subheader color-11" >
+
+ Try browsing one of the categories listed to the left.
+ </p>
+}
+else
+{ 
+  	<ul class="cbp-ig-grid">
+          @foreach (var item in posts) {
+              <li>
+						<a href="/ArticleDetails/@item.PostID">
+							<span class="cbp-ig-icon cbp-ig-icon-spectacles"> </span>
+							<h3 class="cbp-ig-title">@item.Title</h3>
+							<span class="cbp-ig-category"> @item.Author</span>
+                           <p class="win-type-body"> More Details</p>
+						</a>
+					</li>
+				
+              
+          }
+
+
+					
+					
+				</ul>
+   
+    }

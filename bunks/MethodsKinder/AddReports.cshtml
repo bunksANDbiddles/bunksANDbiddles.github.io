@@ -1,0 +1,44 @@
+﻿@{
+    
+  if(IsPost){
+
+        var subjectComment = ""; 
+        var admissionNo = "";
+        var SupervisorID = "";
+        var activity = "";
+        var goals = "";
+        var teacherName = "";
+        var pupilID = "";
+
+  var db = Database.Open("BunksAndBiddlesSchool"); 
+
+     var orderSql = "INSERT INTO KindergartenReport ( subjectComment, admissionNo, SupervisorID, goals,teacherName, pupilID, activity)" +
+                                "VALUES (@0, @1, @2, @3, @4, @5, @6)";
+
+      subjectComment = Request["subjectComment"];
+      admissionNo = Request["admissionNo"];
+      SupervisorID = Request["supervisorID"];
+      goals = Request["goals"];
+      teacherName = Request["teacherName"];
+      pupilID = Request["pupilID"];
+      activity = Request["activity"];
+       
+      
+
+
+     db.Execute( orderSql, subjectComment, admissionNo, SupervisorID, goals, teacherName,  pupilID, activity);  
+     
+     
+     
+
+     
+     }
+
+    }
+
+
+
+
+
+
+

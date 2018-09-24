@@ -1,0 +1,130 @@
+﻿@{     
+       Layout = "~/bunks/Shared/Layouts/_AdminLayout.cshtml";     
+       Page.Title = "Edit Pace Results";          
+       
+       // Get categoryId from URL, or set to 0 if not present     
+       var extraCurricularResultID = !UrlData[0].IsEmpty() ? UrlData[0] : "0";     
+       var extraCurricularTitle = ""; 
+       var comment = "";
+       var admissionNo = ""; 
+       var studentID = ""; 
+       var SupervisorID = "";
+       var teacherName = "";
+                   
+       var db = Database.Open("BunksAndBiddlesSchool");
+
+       if(IsPost)
+       {
+       extraCurricularTitle = Request["extraCurricularTitle"];
+       extraCurricularResultID = Request["extraCurricularResultID"];
+       comment = Request["comment"];
+       admissionNo = Request["admissionNo"];
+       studentID = Request["studentID"];
+       SupervisorID = Request["SupervisorID"];
+        teacherName = Request["teacherName"];
+
+
+       // Validation
+       if (extraCurricularTitle.IsEmpty())
+       {
+           ModelState.AddError("extraCurricularTitle", "Subject Cannot be blank");
+       }
+     
+       if(comment.IsEmpty())
+       {
+           ModelState.AddError("comment", "Pace Number cannot be blank");
+           
+       }
+      
+       if(admissionNo.IsEmpty())
+       {
+           ModelState.AddError("admissionNo", "Admission Number cannot be blank");
+           
+       }
+
+       if(teacherName.IsEmpty())
+       {
+           ModelState.AddError("teacherName", "Teacher Name cannot be blank");
+           
+       }
+
+       
+   
+
+   
+       if(ModelState.IsValid)
+       {
+           var sqlUpdateResults = "UPDATE ExtraCurricularResults SET extraCurricularTitle = @0, comment = @1, admissionNo = @2, SupervisorID = @3, teacherName = @4, studentID = @5 WHERE extraCurricularResultID = @6";
+           db.Execute(sqlUpdateResults, extraCurricularTitle, comment, admissionNo, SupervisorID, teacherName, studentID,  extraCurricularResultID).ToString();
+
+           Response.Redirect("~/bunks/Admin/ExtraCurricula");
+       }
+
+
+     }
+     else
+     {
+         var sqlExtraCurricularResults = "SELECT * FROM ExtraCurricularResults WHERE extraCurricularResultID = @0 ";
+         extraCurricularTitle = db.QuerySingle(sqlExtraCurricularResults, extraCurricularResultID).extraCurricularTitle;
+          teacherName = db.QuerySingle(sqlExtraCurricularResults, extraCurricularResultID).teacherName;
+          admissionNo = db.QuerySingle(sqlExtraCurricularResults, extraCurricularResultID).admissionNo;
+          comment = db.QuerySingle(sqlExtraCurricularResults, extraCurricularResultID).comment;
+         
+          SupervisorID = db.QuerySingle(sqlExtraCurricularResults, extraCurricularResultID).SupervisorID.ToString();
+          studentID = db.QuerySingle(sqlExtraCurricularResults, extraCurricularResultID).studentID.ToString();
+      
+        
+          
+     }
+    
+}
+
+<h1 class="win-type-title">Student Details</h1>
+<hr/>
+<br/>
+
+
+<form action="" method="post">
+
+
+<div class="column">
+ <p class="win-type-body">
+ @Html.Hidden("extraCurricularResultID", extraCurricularResultID)
+ @Html.Hidden("SupervisorID", SupervisorID)
+ @Html.Hidden("studentID", studentID)
+ @Html.Label("Activity", extraCurricularTitle)<br />
+
+       @Html.TextBox("extraCurricularTitle", extraCurricularTitle, new { @class="win-textbox" })
+     @Html.ValidationMessage("extraCurricularTitle")
+
+     
+     </p>
+
+    <p class="win-type-body">
+
+ @Html.Label("comment", comment)<br />
+@Html.TextArea("comment", comment, new { @class="win-textarea" } )
+@Html.ValidationMessage("comment") 
+     </p>
+
+  
+    </div>
+
+      <div class="column">
+      <p class="win-type-body">
+
+ @Html.Label("Admission No:", admissionNo)<br />
+@Html.TextBox("admissionNo", admissionNo, new { @class="win-textbox" })
+@Html.ValidationMessage("admissionNo") 
+   
+
+          <p class="win-type-body">
+    @Html.Label("teacherName", "teacherName")
+    @Html.TextBox("teacherName", teacherName, new { @class="win-textbox" })
+       </p>
+        
+        </div>
+
+   <input type='submit'  class='win-button'  />
+</form>
+

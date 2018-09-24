@@ -1,0 +1,94 @@
+﻿@{
+  Layout = "~/Shared/Layouts/_AdminLayout.cshtml";
+ Page.Title = "Subjects Reports"; 
+ 
+ var db = Database.Open("BunksAndBiddlesSchool");  
+
+ var sqlCommand = "SELECT DISTINCT activity FROM KindergartenReport ORDER BY activity";
+
+
+ var activities = db.Query(sqlCommand);
+
+ sqlCommand = "SELECT * FROM KindergartenReport WHERE admissionNo  LIKE @0 AND activity LIKE @1" ;
+
+
+ var admissionNo = "%" + Request["admissionNo"] + "%";
+
+ var activity = "%" + Request["activity"] + "%";
+  
+ 
+ var reportID  = UrlData[0];
+
+
+  var result = db.Query(sqlCommand, admissionNo, activity);
+
+ var columns = new[]{"reportID", "activity",  "admissionNo", "subjectComment", "teacherName"};
+
+ var resultGrid = new WebGrid(
+ rowsPerPage: 20, source: result); 
+
+
+    
+}
+
+
+
+
+
+
+
+<form method="post">
+
+<div class="" id="grid">
+   
+    
+     <div class="detailColumn">
+    Admission No: 
+    <input class="win-textbox" type="text" name="admissionNo" value="@Request["admissionNo"]" />
+
+        Activity: <select name="activity" class="win-dropdown">
+                 <option></option>   
+            @foreach(var item in activities ){
+                <option @(Request["activity"] == item.activity ? " selected=\"selected\"" : "")>@item.activity</option>
+            }
+        </select>
+    
+      <input type="submit" class="win-button win-button-primary" /> 
+        </div> 
+
+    <div class="detailColumn"> <h1 class="win-type-title">Kindergarten  </h1> 
+        <p class="win-type-body " style="color: #0094ff;">Filter Students Extracurriculum activities</p>
+        </div>
+    
+     
+   <div class="">  
+    @resultGrid.GetHtml(
+        tableStyle: "webgrid",
+        columns: resultGrid.Columns(
+ resultGrid.Column("reportID", "Pace Result No"),
+ resultGrid.Column("admissionNo", "Admission Number"),
+  resultGrid.Column("activity", "Activity Completed"),
+ resultGrid.Column("goals", "Goals"),
+ resultGrid.Column("subjectComment", "Remarks"),
+   resultGrid.Column("teacherName", "Posted By"),
+ resultGrid.Column(null,
+                    null,
+                    format: @<text>
+                            <a class="win-button" href="SubjectDetails/@item.reportID">
+  Details
+ </a>
+ </text>),
+      resultGrid.Column(null,null,format: @<text>
+                            <a href="DeleteSubjectDetails/@item.reportID">
+  <button class="win-button " style="background: #0094ff; color:#fff;">Delete</button>
+ </a>
+ </text>) 
+        )
+        ) 
+       
+    </div>
+    </div>
+
+</form>
+
+

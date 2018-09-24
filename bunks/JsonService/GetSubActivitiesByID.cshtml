@@ -1,0 +1,18 @@
+﻿@{
+    if (UrlData[0].IsEmpty() || !UrlData[0].IsInt()) {
+        Response.SetStatus(HttpStatusCode.BadRequest);
+        Response.End();
+    }
+    var db = Database.Open("BunksAndBiddlesSchool");
+    var sqlSub = @"SELECT subActivityID, subActivityName, goals, 
+                FROM SubActivities INNER JOIN KindergartenSubjects
+                ON KindergartenSubjects.subjectID = SubActivities.subjectID
+                WHERE subActivityID = @0";
+    var data = db.Query(sqlSub, UrlData[0]);
+    if(data.Count() == 0){
+        Response.SetStatus(HttpStatusCode.BadRequest);
+        Response.End();
+    }
+    Response.ContentType = "application/json";
+    Json.Write(data, Response.Output);
+}

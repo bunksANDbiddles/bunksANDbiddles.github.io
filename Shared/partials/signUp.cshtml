@@ -1,0 +1,39 @@
+﻿
+@{
+    
+}
+
+<div  style="border-color: white; background: #4b8bf5" id="signUp" data-win-control="WinJS.UI.Flyout">
+
+
+  
+
+         <form action="Register?@Request.QueryString" method="post" class="toBeAdded">
+
+      
+
+    <p class="win-type-subtitle">
+    
+     @Html.Label("Email Address: ", "email")<br /> 
+     <input type="text" style="width: 100%;"  name="email">     
+  
+    </p>
+ <small class="win-type-body">  @Html.ValidationMessage("email") </small>
+      <p class="win-type-subtitle">
+     @Html.Label("Password: ", "password1")<br /> 
+     <input type="password" style="width: 100%;"  name="password1">     
+     
+    </p>
+<small class="win-type-body"> @Html.ValidationMessage("password1" ) </small>
+         
+           <br />       
+                  
+    <input type="submit" style="color: black; background: white;" class="win-button" value="Log In" />     </p>
+
+
+
+
+</form>
+ 
+    
+</div>

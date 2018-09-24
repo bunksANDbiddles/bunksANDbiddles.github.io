@@ -1,0 +1,12 @@
+﻿@{
+    Layout = "~/Shared/Layouts/_AdminLayout.cshtml";
+    Page.Title = "Administration";
+    
+}
+
+<div class="headerColumn"> 
+    <a href="@Href("~/")"><img style="margin: 10px;" height="165px" src="../../images/Bunksandbiddleslogocolour.png" alt="bunkslogo"></a>
+</div>
+
+<h1 class="win-type-title">Welcome,<span style="color:#3a3a3c "> @WebSecurity.CurrentUserName</span></h1> 
+<p class="win-type-subtitle" style="color: #da2128">Kindly, select an administration task from the menu.</p>

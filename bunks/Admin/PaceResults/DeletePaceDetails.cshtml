@@ -1,0 +1,33 @@
+﻿@{     
+    
+    Layout = "~/bunks/Shared/Layouts/_AdminLayout.cshtml";     
+    Page.Title = "Delete Pace Result";          
+    
+    var paceResultID  = UrlData[0];     
+    if (paceResultID.IsEmpty()) {          
+        Response.Redirect("~/bunks/Admin/PaceResults/");     
+    }          
+    
+    var db = Database.Open("BunksAndBiddlesSchool");          
+    
+    if (IsPost)    
+     {         
+         var sqlDelete = "DELETE FROM PaceResult WHERE paceResultID = @0";         
+         db.Execute(sqlDelete, paceResultID);         
+         Response.Redirect("~/bunks/Admin/PaceResults/");
+     }  
+
+    var sqlSelect = "SELECT * FROM PaceResult WHERE paceResultID = @0";
+    var paces = db.QuerySingle(sqlSelect, paceResultID);   
+        } 
+
+ <p>         
+        Are you sure you want to delete the @paces.AdmissionNo classes?     
+    </p>     
+       
+    <form action="" method="post" id="deleteForm">             
+        <input class="win-button" type="button" onclick="window.location = '@Href("~/bunks/Admin/PaceResults/")';" value="Cancel" />    
+        <input class="win-button" type="submit" value="Delete" />         
+    </form>     
+
+

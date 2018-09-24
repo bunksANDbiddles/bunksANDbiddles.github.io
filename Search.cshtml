@@ -1,0 +1,97 @@
+﻿@{
+    
+Layout = "~/Shared/layouts/_layout.cshtml";
+Page.Title = "WebSite Search";
+
+var db = Database.Open("BunksWebsite");
+
+var searchWords = Request["searchTerm"].Split(' ');
+
+IEnumerable<dynamic> result = Enumerable.Empty<string>();
+IEnumerable<dynamic> resultTwo = Enumerable.Empty<string>();
+
+var sqlSelect = "SELECT newsID, newsTitle FROM News WHERE " +
+                "newsTitle LIKE @0 OR newsBody LIKE @0 OR keywords LIKE @0 ";
+
+var sqlSelectTwo = "SELECT eventsID, eventTitle, eventPreview FROM Events WHERE " +
+                "eventTitle LIKE @0 OR eventsBody LIKE @0 OR keywords LIKE @0 ";
+
+
+foreach(var word in searchWords)
+{
+    result = result.Concat(db.Query(sqlSelect, "%" + word + "%").ToList());
+}
+
+foreach(var wordTwo in searchWords)
+{
+    resultTwo = resultTwo.Concat(db.Query(sqlSelectTwo, "%" + wordTwo + "%").ToList());
+}
+
+    
+}
+
+
+<h1 class="win-type-header">Search Results</h1>
+<p class="win-type-body">@result.Count() News Item found matching: <em>@Request["searchTerm"]</em></p>
+<ul >
+ @foreach (var item in result)
+ {
+ <li>
+
+     	<div class="eventListLayoutTopHeaderTemplateRoot"  >
+    <div class="event">
+        <div   class="event-Date"  >
+          
+           
+        </div>
+        <div class="event-Detail">
+            <h4 class="win-type-subtitle" > <a style="color: #000;" href="/NewsDetails/@item.newsID">@item.newsTitle</a></h4>
+            <h6 class="win-type-body" style="color: #fff;" >
+            
+            
+            
+            </h6>
+            <br/>    <br/>
+       
+            
+        </div>
+    </div>
+</div>
+ </li>
+ }
+</ul> 
+
+
+
+<p class="win-type-body">@resultTwo.Count() Events found matching: <em>@Request["searchTerm"]</em></p>
+<ul >
+ @foreach (var itemTwo in resultTwo)
+ {
+ <li>
+
+     	<div class="eventListLayoutTopHeaderTemplateRoot"  >
+    <div class="event">
+        <div   class="event-Date"  >
+          
+           
+        </div>
+        <div class="event-Detail">
+            <h4 class="win-type-subtitle" > <a style="color: #000;" href="/EventDetails/@itemTwo.eventsID">@itemTwo.eventTitle</a></h4>
+            <h6 class="win-type-body" style="color: #808080;" >
+            
+            @itemTwo.eventPreview
+            
+            </h6>
+            <br/>    <br/>
+       
+            
+        </div>
+    </div>
+</div>
+ </li>
+ }
+</ul> 
+
+
+
+

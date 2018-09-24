@@ -1,0 +1,139 @@
+﻿@{     
+       Layout = "~/Shared/Layouts/_AdminLayout.cshtml";     
+       Page.Title = "Edit Pace Results";          
+       
+       // Get categoryId from URL, or set to 0 if not present     
+       var reportID= !UrlData[0].IsEmpty() ? UrlData[0] : "0";     
+       var subjectComment = ""; 
+       var admissionNo = "";
+       var goals = "";
+       var activity = ""; 
+       var pupilID = ""; 
+       var SupervisorID = "";
+       var teacherName = "";
+                   
+       var db = Database.Open("BunksAndBiddlesSchool");
+
+       if(IsPost)
+       {
+       subjectComment = Request["subjectComment"];
+       reportID = Request["reportID"];
+       
+       goals = Request["goals"];
+       admissionNo = Request["admissionNo"];
+       activity = Request["activity"];
+       pupilID = Request["pupilID"];
+       SupervisorID = Request["SupervisorID"];
+       teacherName = Request["teacherName"];
+
+
+       // Validation
+       if (subjectComment.IsEmpty())
+       {
+           ModelState.AddError("subjectComment", "Subject Cannot be blank");
+       }
+     
+       if(goals.IsEmpty())
+       {
+           ModelState.AddError("goals", "goals cannot be blank");
+           
+       }
+      
+       if(admissionNo.IsEmpty())
+       {
+           ModelState.AddError("admissionNo", "Admission Number cannot be blank");
+           
+       }
+
+       if(activity.IsEmpty())
+       {
+           ModelState.AddError("activity", "activity cannot be blank");
+           
+       }
+
+       if(teacherName.IsEmpty())
+       {
+           ModelState.AddError("teacherName", "Teacher Name cannot be blank");
+           
+       }
+
+   
+       if(ModelState.IsValid)
+       {
+           var sqlUpdateResults = "UPDATE KindergartenReport SET subjectComment = @0, goals = @1, admissionNo = @2, activity = @3, teacherName = @4, pupilID = @5, SupervisorID = @6  WHERE reportID= @7";
+           db.Execute(sqlUpdateResults, subjectComment, goals, admissionNo, activity, teacherName, pupilID, SupervisorID, reportID).ToString();
+
+           Response.Redirect("~/Admin/kindergartenSubjects");
+       }
+
+
+     }
+     else
+     {
+         var sqlPaceResults = "SELECT * FROM KindergartenReport WHERE reportID= @0 ";
+         subjectComment = db.QuerySingle(sqlPaceResults, reportID).subjectComment;
+         teacherName = db.QuerySingle(sqlPaceResults, reportID).teacherName;
+          admissionNo = db.QuerySingle(sqlPaceResults, reportID).admissionNo;
+          goals = db.QuerySingle(sqlPaceResults, reportID).goals;
+          activity = db.QuerySingle(sqlPaceResults, reportID).activity;
+          SupervisorID = db.QuerySingle(sqlPaceResults, reportID).SupervisorID.ToString();
+          pupilID = db.QuerySingle(sqlPaceResults, reportID).pupilID.ToString();
+      
+        
+          
+     }
+    
+}
+
+<h1 class="win-type-title">Student Details</h1>
+<hr/>
+<br/>
+
+
+<form action="" method="post">
+
+
+<div class="column">
+ <p class="win-type-body">
+ @Html.Hidden("reportID", reportID)
+ @Html.Hidden("SupervisorID", SupervisorID)
+ @Html.Hidden("pupilID", pupilID)
+ @Html.Label("Subject :", subjectComment)<br />
+
+       @Html.TextArea("subjectComment", subjectComment, new { @class="win-textarea" })
+     @Html.ValidationMessage("subjectComment")
+
+     
+     </p>
+
+    <p class="win-type-body">
+
+ @Html.Label("Goals", goals)<br />
+@Html.TextArea("goals", goals, new { @class="win-textarea" } )
+@Html.ValidationMessage("goals") 
+     </p>
+
+  
+    </div>
+
+      <div class="column">
+      <p class="win-type-body">
+
+ @Html.Label("Admission No:", admissionNo)<br />
+@Html.TextBox("admissionNo", admissionNo , new { @class="win-textbox" })
+@Html.ValidationMessage("admissionNo") 
+     </p>
+   <p class="win-type-body">
+    @Html.Label("activity", "activity")
+    @Html.TextBox("activity", activity, new { @class="win-textbox" })
+       </p>
+
+      <p class="win-type-body">
+    @Html.Label("teacherName", "teacherName")
+    @Html.TextBox("teacherName", teacherName, new { @class="win-textbox" })
+       </p>
+        </div>
+
+   <input type='submit'  class='win-button'  />
+</form>
+

@@ -1,0 +1,43 @@
+﻿@{     
+    
+    Layout = "~/bunks/Shared/Layouts/_AdminLayout.cshtml";     
+    Page.Title = "Delete Upper Class";          
+    
+    var classID  = UrlData[0];     
+    if (classID.IsEmpty()) {          
+        Response.Redirect("~/bunks/Admin/Classes/");     
+    }          
+    
+    var db = Database.Open("BunksAndBiddlesSchool");          
+    
+    if (IsPost)    
+     {         
+         var sqlDelete = "DELETE FROM Classes WHERE ClassID = @0";         
+         db.Execute(sqlDelete, classID);         
+         Response.Redirect("~/bunks/Admin/Classes/");
+     }  
+
+    var sqlSelect = "SELECT * FROM Classes WHERE classID = @0";
+    var classes = db.QuerySingle(sqlSelect, classID);   
+        } 
+
+<h1 class="win-type-header">Delete Class</h1>
+
+
+@if (!Admin.ClassIsEmpty(classID)) 
+{     
+    
+    <p class="win-type-title"> Unable to delete !</p> 
+    <p class="win-type-body">the @classes.ClassTitle class has students available in school.</p> 
+}
+
+else {     
+    <p>         
+        Are you sure you want to delete the @classes.ClassTitle classes?     
+    </p>     
+       
+    <form action="" method="post" id="deleteForm">             
+        <input class="win-button" type="button" onclick="window.location = '@Href("~/bunks/Admin/Classes/")';" value="Cancel" />                      <input class="win-button" type="submit" value="Delete" />         
+    </form>     
+
+     }

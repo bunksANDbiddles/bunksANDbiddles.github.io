@@ -1,0 +1,41 @@
+﻿@{
+  Layout = "~/Shared/Layouts/_AdminLayout.cshtml";
+ Page.Title = "Pupils"; 
+ 
+ var db = Database.Open("BunksAndBiddlesSchool");  
+
+ var sqlCommand = "SELECT Pupils.pupilId, Pupils.firstName, Pupils.otherNames, Kindergarten.KindergartenTitle " +
+ "FROM Pupils " +
+ "INNER JOIN Kindergarten ON Pupils.KindergartenLevel = Kindergarten.KindergartenID " +
+ "ORDER BY firstName";
+ var result = db.Query(sqlCommand);
+
+ var PupilsGrid = new WebGrid(source: result,
+ rowsPerPage: 20); 
+    
+}
+
+
+<h1 class="win-type-header">A.C.E Pupils</h1>
+
+<a class="win-type-title" href="studentDetails">Add New Student</a>
+
+<div class="">  
+    @PupilsGrid.GetHtml(
+        tableStyle: "webgrid",
+        columns: PupilsGrid.Columns(
+ PupilsGrid.Column("pupilID", "Pupil ID"),
+ PupilsGrid.Column("firstName", "First Name"),
+ PupilsGrid.Column("otherNames", "Other Names"),
+ PupilsGrid.Column("kindergartenTitle", "Class Title"),
+ PupilsGrid.Column(null,
+                    null,
+                    format: @<text>
+                            <a href="PupilDetails/@item.PupilID">
+  <button class="win-button">Details</button>
+ </a>
+ </text>) 
+        )
+        )
+    </div>
+

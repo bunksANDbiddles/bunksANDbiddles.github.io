@@ -1,0 +1,119 @@
+﻿@{     
+       Layout = "~/Shared/Layouts/_AdminLayout.cshtml";     
+       Page.Title = "Edit Days Absent";          
+       
+       // Get categoryId from URL, or set to 0 if not present     
+       var reportID = !UrlData[0].IsEmpty() ? UrlData[0] : "0";     
+       
+       var daysAbsent = "";
+       var admissionNo = ""; 
+       var studentID = ""; 
+       var SupervisorID = "";
+       
+                   
+       var db = Database.Open("BunksAndBiddlesSchool");
+
+       if(IsPost)
+       {
+      
+       reportID = Request["reportID"];
+       daysAbsent = Request["daysAbsent"];
+       admissionNo = Request["admissionNo"];
+       studentID = Request["studentID"];
+       SupervisorID = Request["SupervisorID"];
+       
+
+
+       // Validation
+      
+     
+       if(daysAbsent.IsEmpty())
+       {
+           ModelState.AddError("daysAbsent", "Pace Number cannot be blank");
+           
+       }
+      
+       if(admissionNo.IsEmpty())
+       {
+           ModelState.AddError("admissionNo", "Admission Number cannot be blank");
+           
+       }
+
+     
+
+       
+   
+
+   
+       if(ModelState.IsValid)
+       {
+           var sqlUpdateResults = "UPDATE DaysAbsent SET  admissionNo = @0,  SupervisorID = @1, daysAbsent = @2, studentID = @3 WHERE reportID = @4";
+           db.Execute(sqlUpdateResults, admissionNo,  SupervisorID, daysAbsent,   studentID,  reportID).ToString();
+
+           Response.Redirect("~/Admin/DaysAbsent");
+       }
+
+
+     }
+     else
+     {
+         var sqlDaysAbsent = "SELECT * FROM DaysAbsent WHERE reportID = @0 ";
+        
+         
+          admissionNo = db.QuerySingle(sqlDaysAbsent, reportID).admissionNo;
+          daysAbsent = db.QuerySingle(sqlDaysAbsent, reportID).daysAbsent.ToString();
+         
+          SupervisorID = db.QuerySingle(sqlDaysAbsent, reportID).SupervisorID.ToString();
+          studentID = db.QuerySingle(sqlDaysAbsent, reportID).studentID.ToString();
+      
+        
+          
+     }
+    
+}
+
+<h1 class="win-type-title">Student Details</h1>
+<hr/>
+<br/>
+
+
+<form action="" method="post">
+
+
+<div class="column">
+ <p class="win-type-body">
+ @Html.Hidden("reportID", reportID)
+ @Html.Hidden("SupervisorID", SupervisorID)
+ @Html.Hidden("studentID", studentID)
+
+
+      
+
+     
+     </p>
+
+    <p class="win-type-body">
+
+ @Html.Label("daysAbsent", daysAbsent)<br />
+@Html.TextBox("daysAbsent", daysAbsent, new { @class="win-textbox" } )
+@Html.ValidationMessage("daysAbsent") 
+     </p>
+
+  
+    </div>
+
+      <div class="column">
+      <p class="win-type-body">
+
+ @Html.Label("Admission No:", admissionNo)<br />
+@Html.TextBox("admissionNo", admissionNo, new { @class="win-textbox" })
+@Html.ValidationMessage("admissionNo") 
+   
+
+          
+        
+        </div>
+
+   <input type='submit'  class='win-button'  />
+</form>
+

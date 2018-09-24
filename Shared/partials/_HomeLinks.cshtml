@@ -1,0 +1,120 @@
+﻿@{
+    var db = Database.Open("BunksWebsite");
+    var sqlSelect = "SELECT * FROM Blog; ";
+    
+}
+
+
+
+
+
+
+
+
+						
+
+    	<div class="nav-commands">
+
+            
+          
+          <h1 style="color:#808080;" class="mockup-heading mockup-heading--large paint-area paint-area">Topics</h1>
+            
+            <hr/>
+          <ul>
+			
+						@foreach (var blog in db.Query(sqlSelect ))
+                        {
+  <li><a class="win-type-subtitle" href="/Articles/@blog.blogTitle" >@blog.blogTitle </a></li>
+                            
+ 
+                        }
+
+
+           </ul>
+             
+					
+		</div>
+
+
+<style>
+
+
+.nav-commands ul {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+.nav-commands li{
+	float: none; 
+  width: 100%;
+}
+
+.nav-commands li a{
+  display: block; 
+  width: 100%; 
+  padding: 20px; 
+  border-left: 5px solid; 
+  position: relative; 
+  z-index: 2;
+  text-decoration: none;
+  color: #000;
+  box-sizing: border-box;  
+  -moz-box-sizing: border-box;  
+  -webkit-box-sizing: border-box; 
+}
+	
+.nav-commands li a:hover{ border-bottom: 0px; color: #fff;}
+.nav-commands li:first-child a{ border-left: 10px solid #3498db; }
+.nav-commands li:nth-child(2) a{ border-left: 10px solid #ffd071; }
+.nav-commands li:nth-child(3) a{ border-left: 10px solid #f0776c; }
+.nav-commands li:last-child a{ border-left: 10px solid #1abc9c; }
+
+.nav-commands li a:after { 
+  content: "";
+  height: 100%; 
+  left: 0; 
+  top: 0; 
+  width: 0px;  
+  position: absolute; 
+  transition: all 0.3s ease 0s; 
+  -webkit-transition: all 0.3s ease 0s; 
+  z-index: -1;
+}
+.nav-commands li a:hover:after{ width: 100%; }
+.nav-commands li:first-child a:after{ background: #1C699C; }
+.nav-commands li:nth-child(2) a:after{ background: #B87A00; }
+.nav-commands li:nth-child(3) a:after{ background: #FF311F; }
+.nav-commands li:last-child a:after{ background: #149077; }
+
+ .search {
+    position: relative;
+    height: 32px;
+    width: 33%;
+    max-width: 248px;
+    min-width: 170px;
+    margin-left: auto;
+    border-left: 1px solid rgba(black, 0.1);
+    background-color: transparent;
+  }
+  .search__input {
+    padding: 0 10px;
+    line-height: 32px;
+  }
+  .search__btn {
+    height: 32px;
+    width: 32px;
+  }
+
+
+
+    
+    
+</style>
+
+		
+
+	
+
+				
+

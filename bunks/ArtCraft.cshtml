@@ -1,0 +1,209 @@
+﻿@{
+    
+@*if (!WebSecurity.IsAuthenticated)     
+    {        
+        string currentUrl = Request.Url.ToString();         
+        Response.Redirect("~/bunks/Account/Login?sender=" + currentUrl);     
+    } 
+*@
+    Layout = "~/bunks/Shared/layouts/_Page.cshtml";
+    var pupilID = !UrlData[0].IsEmpty() ? UrlData[0] : "0"; 
+                     
+     var db = Database.Open("BunksAndBiddlesSchool");        
+     var sqlSelect = "SELECT * FROM Pupils WHERE pupilID = @0"; 
+
+     var sqlSelectKinderSubjects = "SELECT * FROM KindergartenSubjects";
+     var sqlSelectTeacher = "SELECT teacherName FROM Teachers " ;     
+          
+     var pupil = db.QuerySingle(sqlSelect, pupilID);  
+     var areaID = UrlData[0];
+  
+    var sqlSelectArtCraft = "SELECT * FROM ArtCraftGoals " +
+                "LEFT OUTER JOIN ArtCraft ON ArtCraftGoals.subTopicID = ArtCraft.subTopicID";
+
+    var artCraftActivities = db.Query(sqlSelectArtCraft);
+ 
+    var sqlSelectSensorial = "SELECT * FROM SensorialGoals ";
+}
+
+
+       
+
+
+
+	
+			<!-- Codrops top bar -->
+@if (pupil == null)
+ {     
+    <p>
+        Unable to fetch Student details.         
+        Try browsing one of the Learning Centers listed to the left.   
+          
+    </p> 
+
+         } 
+else {	
+	<text>	
+
+<script type="text/javascript" src="../../bunks/js/kinderDBupdate.js"></script>	
+	 
+ <p class="win-type-title" style="color:#ef4135;"><b>@pupil.firstName @pupil.otherNames</b>
+    <br> @pupil.admissionNo</p>
+ 
+   
+     <div id="practicalLife" style="width: 50px;" data-win-control="WinJS.UI.NavBarCommand" data-win-options="{ label: 'Select Goals', icon: 'home' }"></div>
+   
+      
+  
+  
+      
+             <div class="headerColumn">
+             
+			
+                
+
+
+
+                     <div id="reportOutput">
+                         <div id="reportOutput1">
+                           
+                             
+				 
+     @if(IsPost){
+            foreach(string item in Request.Form){
+                if(item.Contains("text")){
+                   
+                }
+                if(item.Contains("check")){
+                 
+  <div >
+
+			
+					
+				
+               
+      <div class="grid">
+					
+					<figure class="effect-goliath">
+						<img src="../img/23.jpg" alt="img24"/>
+						<figcaption>
+							<h2 class="win-type-title"><span></span></h2>
+							<p>Click </p>
+							  <button id="add-Report" style="width:300px; height:50px;  background:#3a3a3c; color: white; font-size:large;"class="win-button" >
+                      Fill Academic Report 
+                    </button>
+                            
+                            
+						</figcaption>			
+					</figure>
+    </div>
+                     
+                    <a href="~/bunks/Marks"> <div style=" float:left; background:#3a3a3c; color: white; font-size:large;" data-win-control="WinJS.UI.NavBarCommand" data-win-options="{ label: 'Mark List', icon: 'list' }"></div></a>
+               
+			
+
+			</div>
+ 
+                    <div id="dialog-ReportForm-add" title="Add Report">
+     
+                 <form id="add-PracticalReport-form" action="@Href("~/bunks/MethodsKinder/AddReports")"  method="post">
+
+         <div class="headerColumn">
+          
+                  <ul class="input-list style-1 clearfix">
+                           <li>
+        <input  style="border: none; opacity: 0; background: black ;" type="text" size="2" id="pupilID" name="pupilID" value="@pupilID" class="focus" />
+          </li>
+          <li>
+           
+                <input  style="border: none; opacity: 0; background: black ;" class="une" type="text" size="3"  id="SupervisorID" name="SupervisorID" value="@WebSecurity.GetUserId(WebSecurity.CurrentUserName)" class="focus" /> 
+          </li>
+          
+         <li>
+         <input  style="border: none; opacity: 0; background: black ;" class="focus" type="text" size="13"  id="admissionNo" name="admissionNo" value="@pupil.admissionNo " /> 
+                           </li>
+                       <li>
+         <input  style="border: none; " class="focus" type="text" size="13"  id="activity" name="activity" value="Art and Craft" /> 
+                           </li>
+
+
+                         
+        </ul>
+             
+                   
+                  <select id="teacherName" name="teacherName" class="win-dropdown" style="font-size:x-large; margin: 1em; ">
+                                              <option value="">Supervisor</option>
+                                         @{ 
+                                   foreach (var teacherID in db.Query( sqlSelectTeacher)){
+                                     
+                                             <option  style="font-size:x-large">@teacherID.teacherName</option>
+                                        
+
+                                   }
+  
+                                            }
+                                        
+                                        
+                                        </select>
+                  <textarea  id="subjectComment" style="width: 100%; height: 150px; color:#000;" name="subjectComment" class="win-textarea"   ></textarea>
+                  <textarea  id="goals" placeholder="" style="width: 60%; height: 75px; color:#000;" name="goals" class="win-textarea" placeholder=""  >@Request[item]</textarea>  
+            
+                     
+                             </div>
+
+                                  
+
+                 </form>
+     </div>
+       
+                }
+            }
+        }
+
+</div>
+
+                            
+
+
+                         <div id="reportOutput2" >
+
+
+                                      <form method="post">
+            @for(var i = 1; i <= 1; i++){
+            <div class="smallColumn">
+                
+
+             
+            
+                       @foreach (var item in artCraftActivities) { 
+                  <div class="win-type-body" style="font-size: small;"> <span><input class="win-checkbox" type="checkbox" name="@("check" + i)" value="@item.artCraftGoalName" /></span> @item.artCraftGoalName <br><span style="color: #ab0217; font-size: xx-small"> @item.subTopicName</span></div>
+                  
+                 
+          }
+             
+                  
+            </div>
+<div class="headerColumn"><button id="add-report" type="submit" style="width:180px; background:#ab0217; margin-right: 5px; float: right; height:50px;  background:#3a3a3c; color: white; font-size:large;"class="win-button" >Select List</button></div>
+
+            }
+        
+        </form>
+                        
+                    
+    
+                         </div>
+                    </div>
+                   
+              
+
+             
+				
+			</div>
+
+	
+		</text>		 
+            } 
+ 
+			
+			
+		

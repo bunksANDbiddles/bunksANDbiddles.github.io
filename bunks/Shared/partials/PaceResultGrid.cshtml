@@ -1,0 +1,27 @@
+﻿ 
+@{
+var db = Database.Open("BunksAndBiddlesSchool");
+      var sqlSelect = "SELECT * FROM PaceResult " +
+                "LEFT OUTER JOIN Students ON PaceResult.studentID = Students.studentID " +
+                "WHERE  PaceResult.score >= 0 " +
+                "ORDER BY PaceResult.paceResultID Desc" ;
+    var results = db.Query(sqlSelect);
+    var marksGrid = new WebGrid(results, ajaxUpdateContainerId : "grid", defaultSort: "teacherName", rowsPerPage: 50);
+
+    }
+
+@marksGrid.GetHtml( tableStyle: "webgrid", headerStyle:"header",
+                     
+                    alternatingRowStyle:"alt", columns: marksGrid.Columns ( marksGrid.Column("paceResultID"),
+                        marksGrid.Column("teacherName", canSort: true),
+                         marksGrid.Column("admissionNo"),
+                        marksGrid.Column("subjectName"),
+                        marksGrid.Column("paceNo"),
+                        marksGrid.Column("score"),
+                        marksGrid.Column(format: @<button style="background: white; color: black;"  class="edit-marks win-button" id="@item.paceResultID" >edit</button>) 
+   
+)
+)
+
+
+

@@ -1,0 +1,130 @@
+﻿@{
+    Layout = "~/Shared/layouts/_layout.cshtml";
+
+    var db = Database.Open("BunksWebsite");
+    var sqlSelectVacancies = "SELECT * FROM News WHERE keywords = 'Vacancies'";
+    
+}
+
+ 
+
+
+
+
+
+         
+ <header class="codrops-header">
+
+      <h1 class="win-type-header" style="color: #000;"> Working at BBS  </h1>
+
+  </header>
+				
+	<section class="mockup-section paint-area">
+						<div class="mockup-content mockup-grid">
+							<div class="mockup-grid__item mockup-width--full">
+								<h1 class="mockup-heading mockup-heading--large paint-area paint-area--text">
+                                    <span class="mockup-heading__subline win-type-subtitle"> 
+                    Do you feel called to make a difference in children’s lives?
+
+ </span></h1>
+                               <h1 class="mockup-heading mockup-heading--large paint-area paint-area--text">
+                                   <span class="mockup-heading__subline win-type-subtitle"> 
+            
+Do you sense God’s call for your life in impacting children foundations in learning?
+
+ </span></h1> 
+                                
+                                	 <p class="win-type-subheader color-12">Then you might be just who we’re looking for.</p>
+                                <span class="win-type-subtitle" >Our team of wonderful group of teachers, administrators, counselors, coaches, and staff make our school a special place. If you value a warm and caring educational environment, then we invite you to join us.
+
+    </span> 
+							</div>
+                          
+							
+						</div><!-- /mockup-grid -->
+					</section>
+				
+	
+<div class="row">
+                   
+					<div class="box box--centered">
+                        
+						<pre  >
+
+<span class="win-type-subheader" >Here's Why You'll Like Working at BBS</span>
+
+<span class="win-type-subtitle color-12" >Small Class Size</span>
+<span class="win-type-body" >Our small class sizes enable our teachers to form close relationships with students. Our teachers get to know each student.They have the time and resources to devote to each child as an individual.</span>
+
+<span class="win-type-subtitle color-12" >Compensation Packages</span>
+<span class="win-type-body" >Bunks and Biddles Schools are committed to attracting and retaining outstanding employees by providing comprehensive Employee Benefits and Discounts.
+</span>
+
+<span class="win-type-body">We also offer eligible employees the opportunity to enroll in a Retirement Annuity Plan.</span>
+
+<span class="win-type-body">All full-time employees are eligible for 50% tuition remission for their children who attend Bunks and Biddles Schools.</span>
+
+
+<code>
+
+</code>
+</pre>
+
+
+					</div>
+					<div class="box ">
+					
+
+
+
+                     
+                     
+                      
+
+
+    <ul class="color-5">				
+
+@foreach (var vacancyItem in db.Query(sqlSelectVacancies))
+{
+   
+    	<li>
+					<div class="eventListLayoutTopHeaderTemplateRoot"  >
+    <div class="event">
+     
+        <div class="event-Detail">
+            <h4 class="win-type-subtitle" >@vacancyItem.newsTitle</h4>
+            <h6 class="win-type-body" style="color: #fff;" >@vacancyItem.newsBody 
+            
+            
+            
+            </h6>
+            <br/>    <br/>
+             <a href="/VacancyDetails/@vacancyItem.newsID" class="win-button win-button-primary">
+More Details
+</a>
+            
+        </div>
+    </div>
+</div>
+
+				</li>
+
+
+
+
+   
+
+}
+
+        	</ul>
+
+					</div>
+				</div>
+       
+       
+			
+		
+	
+
+
+<div >@RenderPage("~/Shared/Partials/_AboutLinks.cshtml")</div>

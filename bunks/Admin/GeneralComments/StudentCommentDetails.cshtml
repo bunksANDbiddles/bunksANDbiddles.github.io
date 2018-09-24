@@ -1,0 +1,136 @@
+﻿
+
+@{     
+       Layout = "~/bunks/Shared/Layouts/_AdminLayout.cshtml";     
+       Page.Title = "Edit Pace Results";          
+       
+       // Get categoryId from URL, or set to 0 if not present     
+       var generalCommentID = !UrlData[0].IsEmpty() ? UrlData[0] : "0";     
+       var CommentTitle = ""; 
+       var comment = "";
+      
+       var admissionNo = "";
+       
+       var studentID = ""; 
+       var SupervisorID = "";
+       var teacherName = "";
+                   
+       var db = Database.Open("BunksAndBiddlesSchool");
+
+       if(IsPost)
+       {
+  
+       generalCommentID = Request["generalCommentID"];
+       
+       CommentTitle = Request["CommentTitle"];
+       admissionNo = Request["admissionNo"];
+       comment = Request["comment"];
+       studentID = Request["studentID"];
+       SupervisorID = Request["SupervisorID"];
+       teacherName = Request["teacherName"];
+
+
+       // Validation
+       if (CommentTitle.IsEmpty())
+       {
+           ModelState.AddError("CommentTitle", "Subject Cannot be blank");
+       }
+
+         if (comment.IsEmpty())
+       {
+           ModelState.AddError("comment", "Comment Cannot be blank");
+       }
+     
+    
+      
+       if(admissionNo.IsEmpty())
+       {
+           ModelState.AddError("admissionNo", "Admission Number cannot be blank");
+           
+       }
+
+   
+
+       if(teacherName.IsEmpty())
+       {
+           ModelState.AddError("teacherName", "Teacher Name cannot be blank");
+           
+       }
+
+   
+       if(ModelState.IsValid)
+       {
+           var sqlUpdateResults = "UPDATE GeneralComments SET CommentTitle = @0,   admissionNo = @1, comment = @2, teacherName = @3, studentID = @4, SupervisorID = @5  WHERE generalCommentID = @6";
+           db.Execute(sqlUpdateResults, CommentTitle, admissionNo, comment,  teacherName, studentID, SupervisorID, generalCommentID).ToString();
+
+           Response.Redirect("~/bunks/Admin/GeneralComments");
+       }
+
+
+     }
+     else
+     {
+         var sqlgeneralComments = "SELECT * FROM GeneralComments WHERE generalCommentID = @0 ";
+         CommentTitle = db.QuerySingle(sqlgeneralComments, generalCommentID).CommentTitle;
+         teacherName = db.QuerySingle(sqlgeneralComments, generalCommentID).teacherName;
+          admissionNo = db.QuerySingle(sqlgeneralComments, generalCommentID).admissionNo;
+        comment = db.QuerySingle(sqlgeneralComments, generalCommentID).comment;
+          SupervisorID = db.QuerySingle(sqlgeneralComments, generalCommentID).SupervisorID.ToString();
+          studentID = db.QuerySingle(sqlgeneralComments, generalCommentID).studentID.ToString();
+      
+        
+          
+     }
+    
+}
+
+
+<h1 class="win-type-title">Student Details</h1>
+<hr/>
+<br/>
+
+
+<form action="" method="post">
+
+
+<div class="column">
+ <p class="win-type-body">
+ @Html.Hidden("generalCommentID", generalCommentID)
+ @Html.Hidden("SupervisorID", SupervisorID)
+ @Html.Hidden("studentID", studentID)
+ @Html.Label("Subject :", CommentTitle)<br />
+
+       @Html.TextBox("CommentTitle", CommentTitle, new { @class="win-textbox" })
+     @Html.ValidationMessage("CommentTitle")
+
+     
+     </p>
+
+    <p class="win-type-body">
+
+ @Html.Label("comment", comment)<br />
+@Html.TextArea("comment", comment, new { @class="win-textarea" } )
+@Html.ValidationMessage("comment") 
+     </p>
+
+  
+    </div>
+
+      <div class="column">
+      <p class="win-type-body">
+
+ @Html.Label("Admission No:", admissionNo)<br />
+@Html.TextBox("admissionNo", admissionNo , new { @class="win-textbox" })
+@Html.ValidationMessage("admissionNo") 
+     </p>
+   
+
+      <p class="win-type-body">
+    @Html.Label("teacherName", "teacherName")
+    @Html.TextBox("teacherName", teacherName, new { @class="win-textbox" })
+       </p>
+        </div>
+
+   <input type='submit'  class='win-button'  />
+</form>
+

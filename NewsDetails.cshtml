@@ -1,0 +1,50 @@
+﻿@{
+    
+    Layout = "~/Shared/layouts/_LinkedLayout.cshtml";
+
+    var newsID = !UrlData[0].IsEmpty() ? UrlData[0] : "0";
+    
+    var db = Database.Open("BunksWebsite");
+    
+    var sqlSelect = "SELECT * FROM News WHERE newsID = @0"; 
+
+    var news = db.QuerySingle(sqlSelect, newsID);
+
+}
+
+
+
+@if (news == null)
+{
+    
+
+    <p class="win-type-header">We Currently have no upcoming Event</p>
+}
+
+else {
+
+
+    <text>
+<section class="mockup-section paint-area">
+						<div class="mockup-content">
+							<div class="mockup-blogheader">
+								<p class="paint-area paint-area--text win-type-header">@news.newsTitle</p>
+								<footer class="paint-area paint-area--text ">Status <span>@news.newsActive</span></footer>
+                                <footer class="paint-area paint-area--text ">Posted On <span>@news.datePosted</span></footer>
+							</div>
+						</div><!-- /mockup-grid -->
+    	<div class="mockup-content">
+							<div class="mockup-blogArticle">
+								<p class="paint-area paint-area--text win-type-subheader">@news.newsBody</p>
+								
+							</div>
+						</div><!-- /mockup-grid -->
+					</section>
+
+
+
+
+
+</text>
+    
+}

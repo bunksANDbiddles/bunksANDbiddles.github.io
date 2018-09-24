@@ -1,0 +1,41 @@
+﻿@helper AccountSummary() 
+{
+      
+          if(WebSecurity.IsAuthenticated) {         
+              <text> 
+
+                        
+           <a class="win-type-body" href="@Href("~/Account/ChangePassword")">
+<small>
+             Hi,   @WebSecurity.CurrentUserName 
+                  </small>
+               </a> 
+   <br/>
+ <a style="color: #ef4135" class="win-type-body" href="@Href("~/Marks")">
+Reports  
+   </a>
+            <br/>
+              <a class="win-type-body" href="@Href("~/Account/Logout")">Logout</a>
+                
+               @if (Roles.IsUserInRole(WebSecurity.CurrentUserName, "Administrator"))
+                            {                 
+                                <text>                     
+                                   | <a href="@Href("~/Admin/Default")">Admin</a>                 
+                                </text>  
+                                                   
+                       }   
+         </text>
+                     } else {
+
+                                  <text>
+
+    <a href="@Href("~/Account/Login")">       <small class="win-type-body">   &#xE2AF;  Login </small></a> 
+            <br/>
+           
+<canvas id="canvas" width="150" height="150"></canvas>
+   
+         </text> 
+
+    }
+ }
+ 

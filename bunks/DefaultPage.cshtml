@@ -1,0 +1,195 @@
+﻿@{
+    Page.Title = "Knockout Sample";
+}
+@section script{
+<script type="text/javascript">
+    var viewModel;
+    $(function () {
+        viewModel = {
+            productId: ko.observable(),
+            productName: ko.observable(),
+            contactTitle: ko.observable(),
+            contactName: ko.observable(),
+            companyName: ko.observable(),
+            quantityPerUnit: ko.observable(),
+            unitPrice: ko.observable(),
+            unitsInStock: ko.observable(),
+            categories: ko.observableArray([]),
+            products: ko.observableArray([]),
+            name: ko.observable('edgarKnockout'),
+            changeName: function () {
+                this.name('Edgarga');
+            }
+        };
+        viewModel.buy = function () {
+            if (this.unitsInStock() > 0) {
+                this.unitsInStock(this.unitsInStock() - 1);
+            } else {
+                alert('Out of stock!');
+            }
+        };
+        ko.applyBindings(viewModel);
+        $.getJSON('/JsonService/GetCategories', function (data) {
+            viewModel.categories(data);
+        });
+        $('#categories').change(function () {
+            $.getJSON('/JsonService/GetProductsByCategory/' + $(this).val(), function (data) {
+                viewModel.products(data);
+            });
+        });
+        $('tr').live('hover', function () {
+            $(this).css('cursor', 'pointer');
+        }).live('click', function () {
+            $.getJSON('/JsonService/GetProductById/' + $(this).find('td:first').text(), function (data) {
+                var product = data[0];
+                viewModel.productName(product.ProductName);
+                viewModel.contactTitle(product.ContactTitle);
+                viewModel.contactName(product.ContactName);
+                viewModel.companyName(product.CompanyName);
+                viewModel.unitPrice('£' + product.UnitPrice.toFixed(2));
+                viewModel.quantityPerUnit(product.QuantityPerUnit);
+                viewModel.unitsInStock(product.UnitsInStock);
+            });
+        });
+    });
+
+</script>
+}
+
+<div id="app">
+    
+         <div class="contenttext">
+
+   <div class="container">
+       
+             <header>
+				  
+               <a href="@Href("~/")"><img  height="165px" src="../images/bunkslogo.png" alt="bunkslogo"></a>
+
+                  <div id="headerRight">   
+                       
+                        
+                  </div> 
+                </header>
+    
+              <div id="search">@RenderPage("~/Shared/Partials/_Search.cshtml")
+                  </div>
+                  
+                 <section class="col-2 ">
+
+                     Praise the Lord   @WebSecurity.CurrentUserName 
+				    <div class="detailColumn">
+<div id="products">
+    <h3></h3>
+    <select class="win-dropdown " style="font-size: 2em;" id="categories" data-bind="options: viewModel.categories, optionsText: 'CategoryName', optionsValue: 'CategoryID', optionsCaption: 'Choose...' "  ></select>
+    <table class="webgrid"> 
+        <tbody data-bind="foreach: viewModel.products"> 
+       
+            <tr> 
+                <td class="win-type-body"><span data-bind="text:ProductID"></span></td> 
+                <td class="win-type-body"><span data-bind="text:ProductName"></span></td> 
+
+            </tr> 
+        </tbody> 
+    </table>
+  
+</div>
+        </div>
+      <div class="detailColumn">
+
+<div id="details">
+    <h3>Details</h3>
+    <div class="row">
+        <span class="label">Product:</span>
+        <span data-bind="text: productName"></span>
+    </div>
+    <div class="row">
+        <span class="label">Supplier:</span>
+        <span data-bind="text: companyName"></span>
+    </div>
+    <div class="row">
+        <span class="label">Contact:</span>
+        <span data-bind="text: contactName"></span>
+    </div>
+    <div class="row">
+        <span class="label">Position:</span>
+        <span data-bind="text: contactTitle"></span>
+    </div>
+    <div class="row">
+        <span class="label">Unit Price:</span>
+        <span data-bind="text: unitPrice"></span>
+    </div>
+    <div class="row">
+        <span class="label">Quantity Per Unit:</span>
+        <span data-bind="text: quantityPerUnit"></span>
+    </div>
+    <div class="row">
+        <span class="label">Units In Stock:</span>
+        <span data-bind="text: unitsInStock"></span>
+    </div>
+    <div class="row">
+        <span class="label">&nbsp;</span>
+        <span><button data-bind="click: buy">Buy One</button></span>
+    </div>
+
+    Name: <input type="text" data-bind:"name" />
+    hello, <span data-bind="text: name"></span>
+
+    <button data-bind="click: changeName">change name</button>
+</div>
+</div>  
+			</section>
+               
+     
+				
+
+      
+
+                       
+                          
+      
+
+             
+        
+              	    
+               </div> 
+
+
+            
+               <section class="content bgcolor-4" >
+              <p class="win-type-subtitle">  &copy;@DateTime.Now.Year  Bunks and Biddles Schools. All rights reserved. </p>
+                  
+              </section>
+
+            </div>
+          
+                
+        </div> 
+
+     <div data-win-control="WinJS.UI.HtmlControl"      data-win-options="{uri: '/Shared/layouts/addItemFlyout.cshtml'}"></div>
+             <div id="createNavBar" data-win-control="WinJS.UI.NavBar" data-win-options="{
+    placement: 'bottom',
+    oninvoked: Sample.navBarInvoked
+}">
+    <div data-win-control="WinJS.UI.NavBarContainer">
+        <a href="../Default.cshtml">  <div data-win-control="WinJS.UI.NavBarCommand" data-win-options="{ label: 'Home', icon: 'home' }"></div></a>
+       <a href="../KinderDefault.cshtml"> <div data-win-control="WinJS.UI.NavBarCommand" data-win-options="{ label: 'Kindergarten', icon: '&#xE16D;' }">
+       </div></a>
+        
+    </div>
+</div>     
+                                
+            </div>
+                        
+            
+       
+			
+			
+			
+			
+    
+
+    
+
+   
+</div>

@@ -1,0 +1,75 @@
+﻿@{
+    
+ if (!WebSecurity.IsAuthenticated)     
+ {        
+      string currentUrl = Request.Url.ToString();         
+      Response.Redirect("~/bunks/Account/Login?sender=" + currentUrl);     
+    } 
+    Layout = "~/bunks/Shared/Layouts/_Layout.cshtml";
+
+    var classTitle = UrlData[0];
+
+    if (classTitle.IsEmpty())
+    {
+        Response.Redirect("/bunks/Default");
+    }
+
+    Page.Title = classTitle;
+
+    var db = Database.Open("BunksAndBiddlesSchool");
+    var sqlSelect = "SELECT studentID, firstName, otherNames, admissionNo FROM Students " +
+                "LEFT OUTER JOIN Classes ON Students.classLevel = Classes.classID " + 
+                "WHERE Classes.classTitle = @0";
+    var students = db.Query(sqlSelect, classTitle);
+    
+}
+
+<div id="contentTitle">     
+    <h1>@classTitle</h1> 
+</div> 
+@if (students.Count() == 0) 
+{     
+    <p class="win-type-subheader">         
+        No Pupil found in this Learning center.   
+        </p>  
+              <p class="win-type-title" style="color: #cc021c">       
+        Try browsing one of the Learning Center listed to the left.     
+    </p> 
+}
+else
+{
+    <ul id="studentList">
+          @foreach (var item in students) {
+              <li style="min-height: 300px;">
+                 
+                  <h3 class="win-type-subheader">
+                      <a href="/bunks/StudentDetails/@item.studentID">@item.firstName</a>
+                  </h3>
+                   <h4 class="win-type-title">
+                     @item.otherNames
+                  </h4>
+                   <p class="price">                     
+                       @item.admissionNo                 
+                   </p>
+                         @* <P class="win-type-subtitle">Comments Section has been closed</p>   *@            
+                       <a href="/bunks/StudentDetails/@item.studentID " class="detailsButton" style="color: #cc021c">                         
+                          <div data-win-control="WinJS.UI.NavBarCommand" data-win-options="{ label: 'Fill Report', icon: 'edit' }"></div>                 
+                        </a>  
+                      
+                         <a href="/bunks/StudentReportDetails/@item.studentID "   >                         
+                          <div style="color: #000; background: #ef4135; margin-top: 5px;"  data-win-control="WinJS.UI.NavBarCommand" data-win-options="{ label: 'View Progress', icon: 'view' }"> </div>                 
+                        </a>  
+                  <a href="/bunks/StudentPdf/@item.studentID "   >                         
+                          <div style="color: #000; background: #808080; margin-top: 5px;"  data-win-control="WinJS.UI.NavBarCommand" data-win-options="{ label: 'Generate Report', icon: '&#xE16D;' }"> </div>                 
+                        </a> 
+                        
+                  
+              </li>
+
+
+          }
+    
+    </ul>
+
+
+}

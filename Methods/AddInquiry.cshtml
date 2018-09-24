@@ -1,0 +1,29 @@
+﻿@{
+    if(IsPost){
+        var db = Database.Open("BunksWebsite");
+        var sql = "INSERT INTO Inquiries (FirstName, SecondName, DateOfBirth, City,  Address, Relationship, Email, PersonInquiring, FirstParentName, SecondParentName, FirstParentEmail, SecondParentEmail, FirstParentTel, SecondParentTel,  ClassID, SchoolID, genderID, CountryID) " + 
+            "VALUES (@0, @1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14, @15, @16, @17)";
+        var firstName = Request["firstName"];
+        var secondName = Request["secondName"];
+       
+        var dateOfBirth = Request["dateOfBirth"];
+        var city = Request["city"];
+    
+        var address = Request["address"];
+        var relationship = Request["relationship"];
+        var email = Request["email"];
+        var personInquiring = Request["personInquiring"];
+        var firstParentName = Request["firstParentName"];
+        var secondParentName = Request["secondParentName"];
+        var firstParentEmail = Request["firstParentEmail"];
+        var secondParentEmail = Request["secondParentEmail"];
+        var firstParentTel = Request["firstParentTel"];
+        var secondParentTel = Request["secondParentTel"];
+        var classID = Request["classID"];
+        var schoolID = Request["schoolID"]; 
+        var genderID = Request["genderID"];
+        var countryID = Request["countryID"];
+
+        db.Execute(sql, firstName, secondName, dateOfBirth, city,address, relationship, email, personInquiring, firstParentName, secondParentName, firstParentEmail, secondParentEmail, firstParentTel, secondParentTel, classID, schoolID, genderID, countryID);
+    }
+}

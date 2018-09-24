@@ -1,0 +1,41 @@
+﻿@{
+    
+  if(IsPost){
+
+         var extraCurricularTitle = "";
+        var comment = "";
+     
+      var admissionNo = "";
+     var teacherName = "";
+     
+      var SupervisorID = "";
+      var studentID = "";
+
+  var db = Database.Open("BunksAndBiddlesSchool"); 
+     var orderSql = "INSERT INTO ExtraCurricularResults ( extraCurricularTitle,  admissionNo,SupervisorID, studentID, comment,teacherName)" +
+                                "VALUES (@0, @1, @2, @3, @4, @5)";
+
+
+      extraCurricularTitle = Request["extraCurricularTitle"];
+     comment = Request["comment"];
+     admissionNo = Request["admissionNoReport"];
+     teacherName =Request["teacherNameReport"];
+     SupervisorID =Request["supervisorIDReport"];
+     studentID = Request["studentIDReport"];
+       
+      
+
+
+     db.Execute( orderSql,  extraCurricularTitle, admissionNo, SupervisorID,  studentID, comment,teacherName); 
+     
+     
+     
+ 
+     }
+
+
+     
+
+    }
+
+

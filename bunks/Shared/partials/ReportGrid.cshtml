@@ -1,0 +1,24 @@
+﻿@{
+         var db = Database.Open("BunksAndBiddlesSchool");
+
+  var  sqlSelectReport = "SELECT * FROM ExtraCurricularResults " +
+                    "LEFT OUTER JOIN SupervisorProfile ON ExtraCurricularResults.SupervisorID = SupervisorProfile.SupervisorID " +
+                    "RIGHT OUTER JOIN Students ON ExtraCurricularResults.studentID = Students.studentID " +
+                    "WHERE ExtraCurricularResults.SupervisorID = SupervisorProfile.SupervisorID " +
+                    "ORDER BY ExtraCurricularResults.extraCurricularResultID Desc ";
+    var report = db.Query(sqlSelectReport);
+    var reportGrid = new WebGrid(report, ajaxUpdateContainerId : "grid", defaultSort: "teacherName", rowsPerPage: 10 );
+    
+}
+
+
+ @reportGrid.GetHtml( tableStyle: "webgrid", headerStyle:"header", 
+                    alternatingRowStyle:"alt", columns: reportGrid.Columns (reportGrid.Column("teacherName", canSort: true),
+                         reportGrid.Column("admissionNo"),
+                        reportGrid.Column("extraCurricularTitle"),
+                       reportGrid.Column("comment") 
+                         
+    
+)
+)
+

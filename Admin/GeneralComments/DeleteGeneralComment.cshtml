@@ -1,0 +1,33 @@
+﻿@{     
+    
+    Layout = "~/Shared/Layouts/_AdminLayout.cshtml";     
+    Page.Title = "Delete GeneralCommentsr Result";          
+    
+    var generalCommentID = UrlData[0];     
+    if (generalCommentID.IsEmpty()) {          
+        Response.Redirect("~/Admin/GeneralComments/");     
+    }          
+    
+    var db = Database.Open("BunksAndBiddlesSchool");          
+    
+    if (IsPost)    
+     {         
+         var sqlDelete = "DELETE FROM GeneralComments WHERE generalCommentID = @0";         
+         db.Execute(sqlDelete, generalCommentID);         
+         Response.Redirect("~/Admin/GeneralComments/");
+     }  
+
+    var sqlSelect = "SELECT * FROM GeneralComments WHERE generalCommentID = @0";
+    var results = db.QuerySingle(sqlSelect, generalCommentID);   
+        } 
+
+ <p>         
+        Are you sure you want to delete the @results.AdmissionNo classes?     
+    </p>     
+       
+    <form action="" method="post" id="deleteForm">             
+        <input class="win-button" type="button" onclick="window.location = '@Href("~/Admin/GeneralComments/")';" value="Cancel" />    
+        <input class="win-button" type="submit" value="Delete" />         
+    </form>     
+
+   

@@ -1,0 +1,84 @@
+﻿@{
+  Layout = "~/Shared/Layouts/_AdminLayout.cshtml";
+ Page.Title = "Extra Curriculum Results"; 
+ 
+ var db = Database.Open("BunksAndBiddlesSchool");  
+
+ var sqlCommand = "SELECT * FROM DaysAbsent";
+ var result = db.Query(sqlCommand);
+
+ var resultGrid = new WebGrid(source: result,
+ rowsPerPage: 20); 
+
+    
+}
+
+
+@*
+@{
+  Layout = "~/Shared/Layouts/_AdminLayout.cshtml";
+ Page.Title = "Extra Curriculum Results"; 
+ 
+ var db = Database.Open("BunksAndBiddlesSchool");  
+
+ var sqlCommand = "SELECT DISTINCT extraCurricularTitle FROM ExtraCurricularResults ORDER BY extraCurricularTitle";
+
+var activities = db.Query(sqlCommand);
+
+  sqlCommand = "SELECT * FROM ExtraCurricularResults WHERE admissionNo  LIKE @0 AND extraCurricularTitle LIKE @1 ";
+ 
+ var admissionNo = "%" + Request["admissionNo"] + "%";
+
+ var extraCurricularTitle = "%" + Request["extraCurricularTitle"] + "%";
+  
+ 
+ var extraCurricularResultID  = UrlData[0];
+ 
+ var result = db.Query(sqlCommand, admissionNo, extraCurricularTitle);
+
+ var columns = new[]{"extraCurricularResultID", "extraCurricularTitle",  "admissionNo", "comment", "teacherName"};
+
+ var resultGrid = new WebGrid(source: result,
+ rowsPerPage: 20); 
+
+
+    
+}
+
+*@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<a class="win-type-title" href="studentDetails"></a>
+
+
+<div class="">  
+    @resultGrid.GetHtml(
+        tableStyle: "webgrid",
+        columns: resultGrid.Columns(
+
+
+ resultGrid.Column("admissionNo", "Admission Number"),
+ resultGrid.Column("daysAbsent", "Days Absent"),
+ resultGrid.Column(null,
+                    null,
+                    format: @<text>
+                            <a href="DaysAbsentDetails/@item.reportID">
+  <button class="win-button">Details</button>
+ </a>
+ </text>) 
+        )
+        )
+    </div>
+

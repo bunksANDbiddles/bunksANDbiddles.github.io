@@ -1,0 +1,44 @@
+﻿@* Product Functions *@ 
+@functions {  
+
+    public static string GetPupilNameFromId(int pupilID)     
+    {         
+        var db = Database.Open("BunksAndBiddlesSchool");         
+        var sqlQuery = "SELECT firstName FROM Pupils WHERE pupilID = @0";   
+         var subjectName = "";
+             var subjectComment = "";
+             var report = "";
+             var admissionNo = "";
+             var email = "";
+             var area = "";
+
+             var extraCurricularTitle = "";
+             var comment = "";
+            
+        subjectName = Request["subjectName"];
+                subjectComment = Request["subjectComment"];
+                report = Request["report"];
+                  admissionNo = Request["admissionNo"];
+                  email = Request["email"];
+                  area = Request["area"];
+
+        extraCurricularTitle = Request["extraCurricularTitle"];
+        comment = Request["comment"];
+                
+               
+            var orderSql = "INSERT INTO KindergartenReport (subjectName, report, subjectComment, admissionNo, email, area)" +
+                                "VALUES (@0, @1, @2, @3, @4, @5)";
+                db.Execute(orderSql, subjectName, report, subjectComment, admissionNo, email, area );    
+                
+                var orderSqlCurricula = "INSERT INTO ExtraCurricularResults (admissionNo,extraCurricularTitle, comment )"  +
+                                        "VALUES (@0, @1, @2)";
+                db.Execute(orderSqlCurricula, admissionNo,extraCurricularTitle, comment ) ;
+                 
+           
+             
+                 
+        return db.QuerySingle(sqlQuery, pupilID).firstName;     
+        }  
+        
+     
+    }

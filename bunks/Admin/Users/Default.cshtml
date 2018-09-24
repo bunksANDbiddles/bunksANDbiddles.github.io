@@ -1,0 +1,106 @@
+﻿@{
+    Layout = "~/bunks/Shared/Layouts/_AdminLayout.cshtml";
+    Page.Title = "Admin Users";
+             
+    var userToAdd = "";
+    var role = "Administrator";
+  
+    
+    if(IsPost)     
+    {         
+        userToAdd = Request["userToAdd"]; 
+                         
+        if(userToAdd != null)         
+        {             
+        // Add User to Role             
+            if (WebSecurity.UserExists(userToAdd) &&                 
+                !Roles.IsUserInRole(userToAdd, role))
+            {                 
+                Roles.AddUsersToRoles(                     
+                    new [] { userToAdd }.ToArray(),                     
+                    new [] { role }.ToArray()                 
+                 );             
+             }             
+             else             
+             {                 
+                 ModelState.AddError("userToAdd", "Unable to add user");             
+                 
+             }         
+         }         
+         else if (Request["userToRemove"] != null)        
+         {             
+                // Remove User from Role   
+                                       
+                var userToRemove = Request["userToRemove"];             
+                if (Roles.IsUserInRole(userToRemove, role))
+                {                 
+                    Roles.RemoveUsersFromRoles(                     
+                    new [] { userToRemove }.ToArray(),                     
+                    new [] { role }.ToArray()                 
+                    );             
+                 }         
+                    
+           }     
+                    
+      }          
+                    
+      var users = Roles.GetUsersInRole(role); 
+        }  
+
+
+<div class="headerColumn"> 
+    <a href="@Href("~/bunks/")"><img style="margin: 10px;" height="165px" src="../../images/Bunksandbiddleslogocolour.png" alt="bunkslogo"></a>
+</div>
+
+
+<div class="Column">
+<h2 class="win-type-title">Add Admin User</h2>
+    <p class="win-type-body" style="color:#808080;">Additional administrative privileges</p> 
+<form action="" method="post">
+     <span class="input input--nariko">
+					<input name="userToAdd" value="School Email Address" class="input__field input__field--nariko" type="text" id="input-7" />
+					<label class="input__label input__label--nariko" for="input-7">
+			<span class="input__label-content input__label-content--nariko" data-content="School Email Address">User Name:</span>
+					</label>
+					<svg class="graphic graphic--nariko" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
+						<path d="M1200,9c0,0-305.005,0-401.001,0C733,9,675.327,4.969,598,4.969C514.994,4.969,449.336,9,400.333,9C299.666,9,0,9,0,9v43c0,0,299.666,0,400.333,0c49.002,0,114.66,3.484,197.667,3.484c77.327,0,135-3.484,200.999-3.484C894.995,52,1200,52,1200,52V9z"/>
+                           
+					</svg>
+                       @Html.ValidationMessage("email") 
+				</span>  
+    <br>   
+    <p class="win-type-title">          
+
+        <input class="win-button" style="margin-top: 5px; width: 150px;" type="submit" value="Add" />         @Html.ValidationMessage("userToAdd")     </p> </form>
+
+</div>
+
+<div class="Column">
+
+    <h2 class="win-type-title">Users</h2>
+    <p class="win-type-body" style="color:#808080;">Site Administrators</p> 
+<table class="webgrid">
+
+    @foreach (var user in users)
+    {
+        <tr>
+        <td style="color: #dd353b" class="win-type-body">@user</td>
+        <td>
+            @{
+                var buttonState = "";
+                if (user == WebSecurity.CurrentUserName)
+                {
+                    buttonState = "disabled=disabled";
+                }
+            }
+             <form action="" method="post">                         
+                @Html.Hidden("userToRemove", user)                         
+                 <input class="win-button" type="submit" value="Remove From Role" @buttonState />                     
+             </form> 
+        
+        </td>
+        </tr>
+    }
+
+</table>
+    </div>

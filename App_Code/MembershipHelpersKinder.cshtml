@@ -1,0 +1,35 @@
+﻿@helper AccountSummary() 
+{
+      
+          if(WebSecurity.IsAuthenticated) {         
+              <text> 
+
+                             
+            <a href="@Href("~/bunks/bunks/Account/ChangePassword")">
+            <h1 class="win-type-body">       @WebSecurity.CurrentUserName </h1>
+               </a> 
+
+             
+              <a href="@Href("~/bunks/bunks/Account/Logout")">Logout</a>
+               @if (Roles.IsUserInRole(WebSecurity.CurrentUserName, "Admin"))
+                            {                 
+                                <text>                     
+                                  <a href="@Href("~/bunks/bunks/Admin/Default")">Admin</a>                 
+                                </text>  
+                                                   
+                       }   
+         </text>
+                     } else {
+
+                                  <text>
+
+        <h1 class="win-type-title">     <a href="@Href("~/bunks/Account/LoginKinder")"> &#xE2AF;  Login </a> </h1>
+            
+              <h1 class="win-type-title">    <a href="@Href("~/bunks/Account/RegisterKinder")">&#xE77F; Sign Up</a></h1>
+
+   
+         </text> 
+
+    }
+ }
+ 

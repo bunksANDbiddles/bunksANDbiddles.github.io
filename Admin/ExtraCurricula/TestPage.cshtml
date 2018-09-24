@@ -1,0 +1,97 @@
+﻿@{
+    
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+    </head>
+    <body>
+        
+    </body>
+</html>
+
+
+@{     
+       Layout = "~/Shared/Layouts/_AdminLayout.cshtml";     
+       Page.Title = "Edit Pace Results";          
+       
+       // Get categoryId from URL, or set to 0 if not present     
+       var extraCurricularResultID = !UrlData[0].IsEmpty() ? UrlData[0] : "0";     
+       var extraCurricularTitle = ""; 
+       var comment = "";
+       var admissionNo = ""; 
+       var studentID = ""; 
+       var SupervisorID = "";
+       var teacherName = "";
+                   
+       var db = Database.Open("BunksAndBiddlesSchool");
+
+       if(IsPost)
+       {
+       extraCurricularTitle = Request["extraCurricularTitle"];
+       extraCurricularResultID = Request["extraCurricularResultID"];
+       comment = Request["comment"];
+       admissionNo = Request["admissionNo"];
+       studentID = Request["studentID"];
+       SupervisorID = Request["SupervisorID"];
+        teacherName = Request["teacherName"];
+
+
+       // Validation
+       if (extraCurricularTitle.IsEmpty())
+       {
+           ModelState.AddError("extraCurricularTitle", "Subject Cannot be blank");
+       }
+     
+       if(comment.IsEmpty())
+       {
+           ModelState.AddError("comment", "Pace Number cannot be blank");
+           
+       }
+      
+       if(admissionNo.IsEmpty())
+       {
+           ModelState.AddError("admissionNo", "Admission Number cannot be blank");
+           
+       }
+
+       if(teacherName.IsEmpty())
+       {
+           ModelState.AddError("teacherName", "Teacher Name cannot be blank");
+           
+       }
+
+       
+   
+
+   
+       if(ModelState.IsValid)
+       {
+           var sqlUpdateResults = "UPDATE ExtraCurricularResults SET extraCurricularTitle = @0, comment = @1, admissionNo = @2, SupervisorID = @3, teacherName = @4, studentID = @5 WHERE extraCurricularResultID = @6";
+           db.Execute(sqlUpdateResults, extraCurricularTitle, comment, admissionNo,  teacherName, studentID, SupervisorID, extraCurricularResultID).ToString();
+
+           Response.Redirect("~/Admin/ExtraCurricula");
+       }
+
+
+     }
+     else
+     {
+         var sqlExtraCurricularResults = "SELECT * FROM ExtraCurricularResults WHERE extraCurricularResultID = @0 ";
+         extraCurricularTitle = db.QuerySingle(sqlExtraCurricularResults, extraCurricularResultID).extraCurricularTitle;
+          teacherName = db.QuerySingle(sqlExtraCurricularResults, extraCurricularResultID).teacherName;
+          admissionNo = db.QuerySingle(sqlExtraCurricularResults, extraCurricularResultID).admissionNo;
+          comment = db.QuerySingle(sqlExtraCurricularResults, extraCurricularResultID).comment;
+         
+          SupervisorID = db.QuerySingle(sqlExtraCurricularResults, extraCurricularResultID).SupervisorID.ToString();
+          studentID = db.QuerySingle(sqlExtraCurricularResults, extraCurricularResultID).studentID.ToString();
+      
+        
+          
+     }
+    
+}

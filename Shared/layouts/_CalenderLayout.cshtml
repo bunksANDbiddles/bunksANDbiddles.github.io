@@ -1,0 +1,649 @@
+﻿
+
+@{
+    var  username = "Visitor";
+    
+}
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<title>Bunks &amp; Biddles Schools</title>
+		<meta name="description" content="Bunks and Biddles Schools" />
+		<meta name="keywords" content="horizontal menu, microsoft menu, drop-down menu, mega menu, javascript, jquery, simple menu" />
+		<meta name="author" content="Codrops" />
+		<link rel="shortcut icon" href="../favicon.ico">
+	
+		<script src="../js/modernizr.custom.js"></script>
+         <link href="../WinJS/css/ui-light.css" rel="stylesheet" />
+      
+       <!-- Add icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        	<link rel="stylesheet" type="text/css" href="../css/default.css" />
+        <link rel="stylesheet" type="text/css" href="../css/normalize.css" />
+
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+        <link rel="stylesheet" type="text/css" href="css/custom.css" />
+
+        
+
+        	<noscript>
+			<link rel="stylesheet" type="text/css" href="css/styleNoJS.css" />
+		</noscript>
+     
+		<link rel="stylesheet" type="text/css" href="../css/component.css" />
+        <link rel="stylesheet" type="text/css" href="../css/bunkscss.css" />
+       
+        <script src="@Href("/WinJS/js/base.js")" type="text/javascript"></script>
+        <script src="@Href("/WinJS/js/ui.js")" type="text/javascript"></script>
+         <script  src="@Href("/js/default.js")" type="text/javascript"></script>
+
+
+        	<script src="../js/jquery-2.1.4.min.js"></script>
+
+           <link rel="stylesheet" type="text/css" href="css/calendar.css" />
+		<link rel="stylesheet" type="text/css" href="css/custom_2.css" />
+		<script src="js/modernizr.custom.63321.js"></script>
+
+        <script type="text/javascript" src="js/modernizr.custom.79639.js"></script>
+      
+
+         @RenderSection("head", required: false)
+	</head>
+	<body id="page" >
+
+<div id="app" class="large">
+    <div class="radiodiv">
+        <label><h3 class="win-h3">Window sizes:</h3></label>
+        <input class="win-radio" type="radio" name="placement" value="large" checked="checked" id="largescreen" data-win-bind="onclick: radioChanged" /><label for="largescreen">Large screen</label>
+        <input class="win-radio" type="radio" name="placement" value="medium" id="mediumscreen" data-win-bind="onclick: radioChanged" /><label for="mediumscreen">Medium screen</label>
+        <input class="win-radio" type="radio" name="placement" value="small" id="smallscreen" data-win-bind="onclick: radioChanged" /><label for="smallscreen">Small screen</label>
+    </div>
+
+    <div class="splitView" data-win-control="WinJS.UI.SplitView" data-win-options="{
+            openedDisplayMode: 'inline',
+            closedDisplayMode: 'inline'
+         }">
+        <!-- Pane area -->
+        <div>
+            <div class="header">
+                <button
+                    class="win-splitviewpanetoggle"
+                    data-win-control="WinJS.UI.SplitViewPaneToggle"
+                    data-win-options="{ splitView: select('.splitView') }"
+                ></button>
+                <div class="title">SplitView Pane area</div>
+            </div>
+
+            <div class="nav-commands">
+                 <nav id="cbp-hrmenu" class="cbp-hrmenu" style="position: relative; z-index: 3000">
+                 	<ul >
+                        
+						<li>
+							<a class="win-type-body" href="#">About</a>
+							<div class="cbp-hrsub">
+								<div class="cbp-hrsub-inner"> 
+                              
+									<div class="column">
+                                        
+                                       
+                                         <div>
+                                             <h1 class="win-type-title"></h1>
+										<ul>
+											<li><a href="~/About/Welcome.cshtml" class="win-type-body">Welcome</a></li>
+                                            <li><a href="~/About/HeadOfSchoolWelcome">Head of school Welcome</a></li>
+                                            <li><a href="~/About/BoardOfTrustees">Board of Trustess</a></li>
+                                            <li><a href="~/About/BunksFacts">Bunks Facts</a></li>
+                                            <li><a href="~/About/MeetOurFaculty">Meet our Faculty</a></li>
+                                            <li><a href="~/About/Blog">Blog</a></li>
+                                            <li><a href="~/About/Employment">Employment</a></li>
+                                            
+                                            <li><a href="~/About/Contacts">Contacts &amp; Directions</a></li>
+										</ul></div>
+                                    
+                                    </div>
+                                       <div class="column">
+                                           <div class="col-2">
+                                           <h4 >About </h4>
+                                           <p class="win-type-title " style="font-size: small; color: white;">
+                                            Our Bible centered educational experience integrates opportunities to explore a variety of interests while developing a strong Christian and academic foundation. Each child enjoys a balanced experience that sets him or her on a path to life-long learning.
+                                           </p></div>
+                                           </div>
+                                    <div class="col-2">
+                                         <h4 > </h4>
+                                    <div class="caption"><img src="~/Images/About.jpg" alt="About"></div>
+                                   </div>
+								</div><!-- /cbp-hrsub-inner -->
+							</div><!-- /cbp-hrsub -->
+						</li>
+						<li>
+							<a href="#" class="win-type-body">Admission</a>
+							<div class="cbp-hrsub">
+								<div class="cbp-hrsub-inner">
+								<div class="column">
+                                        
+                                       
+                                         <div>
+                                             <h1 class="win-type-title"></h1>
+										<ul>
+											<li><a href="~/Admission/Welcome.cshtml" class="win-type-body">Welcome</a></li>
+											
+                                            <li><a href="~/Admission/Visit">Inquire</a></li>
+                                            <li><a href="~/Admission/Inquire">Visit</a></li>
+                                            <li><a href="~/Admission/Apply">Apply</a></li>
+                                            <li><a href="~/Admission/Tution">Tution</a></li>
+                                           
+										</ul></div>
+                                    
+                                    </div>
+                                     <div class="column">
+                                           <div class="col-2">
+                                           <h4 >Admission </h4>
+                                           <p class="win-type-title " style="font-size: small; color: white;">
+                                            Our Bible centered educational experience integrates opportunities to explore a variety of interests while developing a strong Christian and academic foundation. Each child enjoys a balanced experience that sets him or her on a path to life-long learning.
+                                           </p></div>
+                                           </div>
+                                    <div class="col-2">
+                                         <h4 > </h4>
+                                    <div class="caption"><img src="~/Images/Family.jpg" alt="About"></div>
+                                   </div>
+
+
+								
+								</div><!-- /cbp-hrsub-inner -->
+							</div><!-- /cbp-hrsub -->
+						</li>
+						<li>
+							<a href="#" class="win-type-body">Academics</a>
+							<div class="cbp-hrsub">
+								<div class="cbp-hrsub-inner"> 
+								<div class="column">
+                                        
+                                       
+                                         <div>
+                                              <h4 > <a href="~/Academics/Welcome.cshtml" class="win-type-body">Welcome</a> </h4>
+                                              
+                                           <p class="win-type-title " style="font-size: small; color: white;">                                          
+                                               Academics are important, most people would agree because it is the foundation we build on before zeroing 
+                                               in to different careers and interests. Our goal is to spark 
+                                               interest in our children to want to learn and create an environment 
+                                               for this to happen. 
+                                           </p>
+										<ul>
+                                     
+
+                                              <li>  <h4 >  Curriculum  </h4><hr/></li>
+                                            <li><a href="https://www.aceministries.com/">Accelerated Christian Education</a></li>
+                                            <li><a href="http://www.montessori.edu/">Montessorri</a></li>
+                                            
+                                          
+                                          
+										</ul></div>
+                                    
+                                    </div>
+                                       <div class="column">
+                                         <ul><li>  <h4 >  Schools  </h4><hr/></li>
+                                              <li><a href="~/Academics/Lavington">Lavington</a></li>
+                                            <li><a href="~/Academics/Karen">Karen</a></li>
+											 <li>  <h4 >  Classes  </h4><hr/></li>
+                                             <li><a href="~/Academics/DayCare">Day Care  </a></li>
+                                            <li><a href="~/Academics/Kindergarten">Kindergaten</a></li>
+                                            <li><a href="~/Academics/Primary">Primary</a></li>
+                                            <li><a href="~/Academics/Secondary">Secondary</a></li></ul>
+                                                     </div>
+                                           
+								</div><!-- /cbp-hrsub-inner -->
+							</div><!-- /cbp-hrsub -->
+						</li>
+						<li>
+							<a href="#" class="win-type-body">Clubs</a>
+							<div class="cbp-hrsub">
+								<div class="cbp-hrsub-inner"> 
+										<div class="column">
+                                        
+                                       
+                                         <div>
+                                             <h1 class="win-type-title"></h1>
+										<ul>
+												<li><a href="#">Art</a></li>
+											<li><a href="#">Science</a></li>
+											<li><a href="#">Lamda</a></li>
+											<li><a href="#">Music</a></li>
+											<li><a href="#">Swimming</a></li>
+											<li><a href="#">Scating</a></li>
+                                            <li><a href="#">Horse Riding</a></lia>
+										</ul></div>
+                                    
+                                    </div>
+                                       <div class="column">
+                                           <h4 >Clubs </h4>
+                                           <p class="win-type-title " style="font-size: small; color: white;">
+                                             When you think about your child, what do you want for him or her? If you’re like most parents, 
+                                               you want your child to be taught of the Lord and great 
+                                               will be his/her peace, pursuing righteousness, and full 
+                                               of joy, safe, well-rounded, curious and excited to learn, 
+                                               and prepared for their God given destiny. Just as Billy Graham stated, 
+                                               “Be anchored to the Rock and geared to the times”
+                                           </p></div>
+								</div><!-- /cbp-hrsub-inner -->
+							</div><!-- /cbp-hrsub -->
+						</li>
+                        <li>
+							<a href="#" class="win-type-body">Giving</a>
+							<div class="cbp-hrsub">
+								<div class="cbp-hrsub-inner"> 
+									<div>
+										
+										<ul>
+											<li><a href="~/Giving/Welcome.cshtml" class="win-type-body">Welcome</a></li>
+                                            <li><a href="~/Giving/StrategicSchoolImprovement">Strategic School Improvement</a></li>
+                                            <li><a href="~/Giving/MakeAGift">Make a Gift</a></li>
+                                            <li><a href="~/Giving/BunksFund">Bunks Fund</a></li>
+                                            <li><a href="~/Giving/WaysToGive">Ways to Give</a></li>
+                                            <li><a href="~/Giving/EndowmentFunds">Endowment Funds</a></li>
+                                            <li><a href="~/Giving/PlannedGiving">Planned Giving</a></li>
+										</ul>
+									</div>
+                                    <div class="column">
+                                           <div class="col-2">
+                                           <h4 >Giving </h4>
+                                           <p class="win-type-title " style="font-size: small; color: white;">
+                                           Making meaningful memories is what we strive to do every day while providing the best possible education for our students.
+ 
+We are so proud of our experienced teachers, talented students, and caring parents. It’s our collaborative community that makes our school really shine. That’s why we count on your generosity to assure our bright future.
+
+                                           </p></div>
+                                           </div>
+                                    <div class="col-2">
+                                         <h4 > </h4>
+                                    <div class="caption"><img src="~/Images/About.jpg" alt="Giving"></div>
+								</div>
+								</div><!-- /cbp-hrsub-inner -->
+							</div><!-- /cbp-hrsub -->
+						</li>
+
+                      
+					</ul>
+
+				</nav>
+            </div>
+        </div>
+
+        <!-- Content area -->
+        <button
+            class="win-splitviewpanetoggle"
+            data-win-control="WinJS.UI.SplitViewPaneToggle"
+            data-win-options="{ splitView: select('.splitView') }"
+        ></button>
+        <div class="contenttext">
+            
+            
+          
+		<div class="container demo-2">
+
+           
+
+              
+
+  
+
+               <div class="column">
+              
+ 
+
+
+
+
+               </div>  
+                     <div class="column">
+                           
+                      
+                                    <div id="sb-search" class="sb-search">
+
+                                         
+						<form>
+							<input class="sb-search-input" placeholder="Search" type="text" value="" name="search" id="search">
+							<input class="sb-search-submit" type="submit" value="">
+							<h1 class="sb-icon-search" > <span class="win-type-title">  &#xE11A; </span> </h1>
+						</form>
+                                           
+ 
+
+                                     
+					</div>
+                                       
+                             
+                                    </div>
+			<div class="main" >
+
+                       <header class="codrops-header">
+
+                      <a href="@Href("~/")">
+                    <img style="margin: 0.2em;" height="150px" src="../Images/BunksAndBiddlesLogo.png" alt="bunkslogo">
+                       </a>  
+                       <div class="win-toolbar" data-win-control="WinJS.UI.ToolBar">
+
+                                                   
+             
+                 
+              
+          
+   <a class="active" href="#"><img src="~/img/SocialMedia/Twitter-30.png" alt="Twitter"></a> 
+  <a href="#"><img src="~/img/SocialMedia/Facebook-30.png" alt="facebook"></a> 
+
+  <a href="#"><img src="~/img/SocialMedia/LinkedIn-30.png" alt="LinkedIn"></a>
+  <a href="#"><img src="~/img/SocialMedia/Google Plus-30.png" alt="GooglePlus"></a> 
+ </div>
+               
+                </header> 
+                
+                 
+                 	
+             
+                
+
+                  </div>
+
+            
+                 @RenderBody() 
+
+<div data-win-control="WinJS.UI.HtmlControl" data-win-options="{uri: 'Shared/partials/register.cshtml'}">
+              </div>
+<div data-win-control="WinJS.UI.HtmlControl"      
+                data-win-options="{uri: 'Shared/partials/signUp.cshtml'}">
+              </div>
+
+            	<div class="row">
+                    
+					<div class="box box--centered">
+                        
+				
+    <header class="codrops-header">
+
+
+       
+         <p class="win-type-subtitle" > P.O. Box 15343-00509 </p>
+        <p class="win-type-subtitle">Nairobi, Kenya
+</p>
+        <p class="win-type-subtitle">Phone: +254 722 344 127</p>
+
+        	<aside class="cl-effect-17 color-1" >
+					
+
+                    <a href="~/About/Welcome.cshtml" data-hover="Contact Us">Contact Us</a>
+                    <a href="~/About/HeadOfSchoolWelcome" data-hover="Directions">Directions</a>
+                  
+				</aside>
+                    
+                </header>  
+
+
+					</div>
+					<div class="box">
+					
+
+					</div>
+				</div>
+
+  <section class="mockup-section--dark paint-area">
+						<div class="mockup-content mockup-grid">
+							<div class="mockup-grid__item mockup-width--full">
+								  <div class="sitemap">
+
+ 
+
+    <button id="runAnimation" class="mockup-button paint-area"><span>Site Map</span> <i class="fa fa-chevron-right"></i></button>
+    <div id="contentArea">
+      
+
+
+
+
+
+
+
+
+
+
+
+       <label>Placement:</label><br />
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   <input class="win-radio" type="radio" name="placement" value="top" checked="checked" id="topPlacement" /><label for="topPlacement">top</label><br />
+    <input class="win-radio" type="radio" name="placement" value="left" id="leftPlacement" /><label for="leftPlacement">left</label><br />
+    
+
+
+
+	
+</div> 
+								
+							</div>
+							
+						</div><!-- /mockup-grid -->
+                            </div>
+					</section>
+
+			</div>
+
+         <div class="box">
+    <div id="menu1" data-win-control="WinJS.UI.Menu">
+        <button id="registerAccount" class="win-type-body" data-win-control="WinJS.UI.MenuCommand" data-win-options="{label:'Register', type:'button'}"></button>
+      
+        <hr data-win-control="WinJS.UI.MenuCommand" data-win-options="{type: 'separator'}" />
+        <button data-win-control="WinJS.UI.MenuCommand" data-win-options="{label:'Supervisor', type:'flyout', flyout:select('#menuFlyout')}"></button>
+             <hr data-win-control="WinJS.UI.MenuCommand" data-win-options="{type: 'separator'}" />
+          <button data-win-control="WinJS.UI.MenuCommand" data-win-options="{label:'Parent', type:'flyout', flyout:select('#parentFlyout')}"></button>
+         <hr data-win-control="WinJS.UI.MenuCommand" data-win-options="{type: 'separator'}" />
+          <button data-win-control="WinJS.UI.MenuCommand" data-win-options="{label:'Students', type:'flyout', flyout:select('#studentFlyout')}"></button>
+        <hr data-win-control="WinJS.UI.MenuCommand" data-win-options="{type: 'separator'}" />
+    </div>
+
+    <div id="menuFlyout" data-win-control="WinJS.UI.Flyout" aria-label="{Confirm purchase flyout}">
+        <h1 class="win-type-subtitle">Staff Portal</h1>
+   
+        
+    </div>
+                <div id="parentFlyout" data-win-control="WinJS.UI.Flyout" aria-label="{Confirm purchase flyout}">
+        <h1 class="win-type-subtitle">Parents Reports</h1>
+   
+        
+    </div>
+                         <div id="studentFlyout" data-win-control="WinJS.UI.Flyout" aria-label="{Confirm purchase flyout}">
+      
+
+    </div>
+
+    
+
+   
+
+</div>
+
+        
+        
+        
+        </div>
+    </div> 
+</div>
+
+    
+
+      
+
+      
+       
+          
+         
+
+     
+		
+
+      
+       
+        <script src="https://goo.gl/RT0j4e"></script>
+		<script src="../js/cbpHorizontalMenu.js"></script>
+		<script>
+			$(function() {
+				cbpHorizontalMenu.init();
+			});
+		</script>
+
+        <script src="js/jquery.cbpNTAccordion.min.js"></script>
+		<script>
+			$( function() {
+				/*
+				- how to call the plugin:
+				$( selector ).cbpNTAccordion( [options] );
+				- destroy:
+				$( selector ).cbpNTAccordion( 'destroy' );
+				*/
+
+				$( '#cbp-ntaccordion' ).cbpNTAccordion();
+
+			} );
+		</script>
+
+     
+
+        	<script src="../js/classie.js"></script>
+		<script src="../js/uisearch.js"></script>
+		<script>
+			new UISearch( document.getElementById( 'sb-search' ) );
+		</script>
+
+    
+        	
+
+        	<script type="text/javascript" src="../js/jquery.ba-cond.min.js"></script>
+	
+	
+        	<script type="text/javascript" src="js/jquery.calendario.js"></script>
+		<script type="text/javascript" src="js/data.js"></script>
+		<script type="text/javascript">	
+			$(function() {
+			
+				var transEndEventNames = {
+						'WebkitTransition' : 'webkitTransitionEnd',
+						'MozTransition' : 'transitionend',
+						'OTransition' : 'oTransitionEnd',
+						'msTransition' : 'MSTransitionEnd',
+						'transition' : 'transitionend'
+					},
+					transEndEventName = transEndEventNames[ Modernizr.prefixed( 'transition' ) ],
+					$wrapper = $( '#custom-inner' ),
+					$calendar = $( '#calendar' ),
+					cal = $calendar.calendario( {
+						onDayClick : function( $el, $contentEl, dateProperties ) {
+
+							if( $contentEl.length > 0 ) {
+								showEvents( $contentEl, dateProperties );
+							}
+
+						},
+						caldata : codropsEvents,
+						displayWeekAbbr : true
+					} ),
+					$month = $( '#custom-month' ).html( cal.getMonthName() ),
+					$year = $( '#custom-year' ).html( cal.getYear() );
+
+				$( '#custom-next' ).on( 'click', function() {
+					cal.gotoNextMonth( updateMonthYear );
+				} );
+				$( '#custom-prev' ).on( 'click', function() {
+					cal.gotoPreviousMonth( updateMonthYear );
+				} );
+
+				function updateMonthYear() {				
+					$month.html( cal.getMonthName() );
+					$year.html( cal.getYear() );
+				}
+
+				// just an example..
+				function showEvents( $contentEl, dateProperties ) {
+
+					hideEvents();
+					
+					var $events = $( '<div id="custom-content-reveal" class="custom-content-reveal"><h4>Events for ' + dateProperties.monthname + ' ' + dateProperties.day + ', ' + dateProperties.year + '</h4></div>' ),
+						$close = $( '<span class="custom-content-close"></span>' ).on( 'click', hideEvents );
+
+					$events.append( $contentEl.html() , $close ).insertAfter( $wrapper );
+					
+					setTimeout( function() {
+						$events.css( 'top', '0%' );
+					}, 25 );
+
+				}
+				function hideEvents() {
+
+					var $events = $( '#custom-content-reveal' );
+					if( $events.length > 0 ) {
+						
+						$events.css( 'top', '100%' );
+						Modernizr.csstransitions ? $events.on( transEndEventName, function() { $( this ).remove(); } ) : $events.remove();
+
+					}
+
+				}
+			
+			});
+		</script>
+     
+
+        <script>
+            WinJS.UI.processAll().done(function () {
+                var anchor = document.getElementById("showMenuButton");
+                anchor.addEventListener("click", function () {
+                    var menu = document.getElementById("menu1").winControl;
+                    var placement = document.querySelector("input[type=radio]:checked").value;
+                    menu.show(anchor, placement);
+                });
+
+                var registerbutton = document.getElementById("registerAccount");
+                registerbutton.addEventListener("click", function () {
+                    window.location = 'Account/Register.cshtml';
+                })
+
+                var dismissButton = document.getElementById("dismissButton");
+                dismissButton.addEventListener("click", function () {
+                    var flyout = document.getElementById("menuFlyout").winControl;
+                    flyout.hide();
+                });
+
+
+            });
+
+
+        </script>
+
+
+
+	</body>
+</html>
+
+
